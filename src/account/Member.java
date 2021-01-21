@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Member {
 	Scanner sc = new Scanner(System.in);
 	MemberDTO dto = new MemberDTO();
+	MemberDAO dao = new MemberDAO();
 	
 	public void login() {
 		System.out.print("아이디를 입력해주세요 : ");
@@ -98,16 +99,24 @@ public class Member {
 			}
 		}
 		
+		MemberDAO dao = new MemberDAO();
+		dao.insert(dto.getId(),dto.getPw(),dto.getName(),dto.getGender(),dto.getAddr());
 		System.out.println("회원가입이 완료되었습니다!!");
 	}
 
 	public void searchId() {
-		// TODO Auto-generated method stub
-		
+		System.out.print("이름을 입력해주세요 : ");
+		String name = sc.nextLine();
+		dao.searchId(name);
 	}
 
 	public void searchPw() {
-		// TODO Auto-generated method stub
-		
+		System.out.print("이름을 입력해주세요 : ");
+		String name = sc.nextLine();
+		System.out.print("아이디 : ");
+		String id = sc.nextLine();
+		dao.searchPw(id, name);
 	}
+
+
 }

@@ -1,7 +1,7 @@
 package account;
 
 public class MemberDTO {
-
+	
 	private String id;
 	private String pw;
 	private String name;
@@ -64,4 +64,5 @@ public class MemberDTO {
 	public String toString() {
 		return "MemberDTO [id=" + id + ", pw=" + pw + ", name=" + name + ", gender=" + gender + ", addr=" + addr + "]";
 	}
+	
 }
