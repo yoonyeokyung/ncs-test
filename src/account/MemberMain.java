@@ -44,10 +44,10 @@ public class MemberMain {
 							switch(no) {
 								case 1 : 
 									member.update(log);
-									break;
+									return;
 								case 2 : 
 									member.delete(log);
-									break;
+									return;
 								case 0 : return;
 								default : System.out.println("잘못된 번호 입력");
 							}

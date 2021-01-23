@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 public class MemberDAO {
 	
@@ -54,8 +55,7 @@ public class MemberDAO {
 				if(log.equals(selectMember.getId()) && log.equals(selectMember.getPw())) {
 					
 					try {
-						fsOut = new FileOutputStream("memberDB.txt",true);
-						osOut = new ObjectOutputStream(fsOut);
+
 						
 //						if(logNum == 1) {
 //						
@@ -85,23 +85,43 @@ public class MemberDAO {
 	public void delete(MemberDTO log) throws IOException {
 		fsIn = new FileInputStream("memberDB.txt");
 		osIn = new ObjectInputStream(fsIn);
+
+		ArrayList<MemberDTO> dummy = new ArrayList<MemberDTO>();
 		
 		while(true) {
 			try {
-				MemberDTO selectMember = (MemberDTO)osIn.readObject();
+				MemberDTO deleteMember = (MemberDTO)osIn.readObject();
 				
-				if(log.getId().equals(selectMember.getId()) && log.getPw().equals(selectMember.getPw())) {
-					try {
-						fsOut = new FileOutputStream("memberDB.txt",true);
-						osOut = new ObjectOutputStream(fsOut);
-					} catch (Exception e){
-						e.printStackTrace();
-					}
+				if(log.getId().equals(deleteMember.getId()) && log.getPw().equals(deleteMember.getPw())) {
+					continue;
+					
+				}else {
+					dummy.add(deleteMember);
 				}
 				
 			} catch (Exception e) {
-				e.printStackTrace();
+				break;
 			}
+		}
+
+		
+		try {
+			fsOut = new FileOutputStream("memberDB.txt",false);
+			osOut = new ObjectOutputStream(fsOut);
+			
+			for(MemberDTO object : dummy) {
+				osOut.writeObject(object);
+				osOut.flush();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(fsOut != null) try{fsOut.close();}catch(IOException e){}
+			if(osOut != null) try{osOut.close();}catch(IOException e){}	
+			System.out.println("삭제가 완료되었습니다.");
+			System.out.println("그동안 이용해 주셔서 감사합니다.");
 		}
 	}
 	
