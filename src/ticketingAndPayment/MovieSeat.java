@@ -17,7 +17,7 @@ public class MovieSeat {
 
 		while (a == 0) {
 			int choiceNumber = 0;		// 사용자가 선택한 번호를 담기 위한 변수
-
+ 
 			System.out.println("1. " + movieSeat[0]);
 			System.out.println("2. " + movieSeat[1]);
 			System.out.println("3. " + movieSeat[2]);

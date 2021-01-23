@@ -22,7 +22,7 @@ public class Movie {
 		}
 		return movielist[choice];
 	}
-	
+	 
 	public int moviePrice() {
 		int price;
 		

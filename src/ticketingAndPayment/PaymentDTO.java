@@ -20,9 +20,9 @@ public class PaymentDTO {
 	public String getInckName() {
 		return inckName;
 	}
+ 
 
-
-
+ 
 	public void setInckName(String inckName) {
 		this.inckName = inckName;
 	}

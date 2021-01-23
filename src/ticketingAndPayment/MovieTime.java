@@ -23,7 +23,7 @@ public class MovieTime {
 		sc.nextLine();
 		if (choice == 1 || choice == 2 || choice == 3 || choice == 4 || choice == 5 || choice == 6 || choice == 7) {
 			break;
-		}
+		} 
 		System.out.println("잘못 선택하셨습니다 다시 선택해 주세요");
 	}
 
