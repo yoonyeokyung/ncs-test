@@ -1,6 +1,10 @@
 package account;
 
-public class MemberDTO {
+import java.io.Serializable;
+
+public class MemberDTO implements Serializable{
+
+	private static final long serialVersionUID = -7034443345777681227L;
 	
 	private String id;
 	private String pw;
@@ -64,5 +68,7 @@ public class MemberDTO {
 	public String toString() {
 		return "MemberDTO [id=" + id + ", pw=" + pw + ", name=" + name + ", gender=" + gender + ", addr=" + addr + "]";
 	}
+	
+	
 	
 }

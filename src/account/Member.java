@@ -1,5 +1,6 @@
 package account;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Member {
@@ -7,20 +8,20 @@ public class Member {
 	MemberDTO dto = new MemberDTO();
 	MemberDAO dao = new MemberDAO();
 	
-	public void login() {
+	public int login() {
+		int login = 0;
 		System.out.print("아이디를 입력해주세요 : ");
 		String id = sc.next();
 		System.out.print("비밀번호를 입력해주세요 : ");
 		String pw = sc.next();
 		
-		if(id.equals(dto.getId())) {
-			if(pw.equals(dto.getPw())) {
-				System.out.println("로그인 성공");
-			}else {
-				System.out.println("아이디 혹은 비밀번호가 존재하지 않습니다.");				
-			}
-		}else {
-			System.out.println("아이디 혹은 비밀번호가 존재하지 않습니다.");
+		try {
+			login = dao.login(id, pw);
+			return login;
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return login;
 		}
 	}
 
@@ -99,15 +100,17 @@ public class Member {
 			}
 		}
 		
-		MemberDAO dao = new MemberDAO();
 		dao.insert(dto.getId(),dto.getPw(),dto.getName(),dto.getGender(),dto.getAddr());
-		System.out.println("회원가입이 완료되었습니다!!");
 	}
 
 	public void searchId() {
 		System.out.print("이름을 입력해주세요 : ");
 		String name = sc.nextLine();
-		dao.searchId(name);
+		try {
+			dao.searchId(name);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void searchPw() {
@@ -115,7 +118,20 @@ public class Member {
 		String name = sc.nextLine();
 		System.out.print("아이디 : ");
 		String id = sc.nextLine();
-		dao.searchPw(id, name);
+		try {
+			dao.searchPw(id, name);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void update() {
+//		dao.update(null, null, null, null, null);
+		System.out.println(dto.getName()+"입니다.");
+	}
+
+	public void delete() {
+		dao.delete(null, null);
 	}
 
 

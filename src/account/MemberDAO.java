@@ -1,34 +1,45 @@
 package account;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class MemberDAO {
 	
-	private String id;
-	private String pw;
-	private String name;
-	private String gender;
-	private String addr;
-	
 	MemberDTO dto = new MemberDTO();
 	
+	FileOutputStream fsOut = null;
+	ObjectOutputStream osOut = null;
 	
-	private ArrayList<String[]> memberList = new ArrayList<>(Arrays.asList(
-			new String[][]{ {"ID","PW","이름","성별","주소"}, {"qwer","1234","홍길동","남","주소"} }));
+	FileInputStream fsIn = null;
+	ObjectInputStream osIn = null;
 
-	public void insert(String id, String pw, String name, String gender, String addr) {
-		String[] insertArray = {id,pw,name,gender,addr};
-		memberList.add(insertArray);
+	public void insert(String id,String pw,String name, String gender, String addr) {
 		
-		/* 입력한 값이 잘 저장됐는지 확인 (ArrayList)*/
-//		for (int i=0; i < memberList.size(); i++) {
-//			for(int j=0; j<memberList.get(i).length; j++) {
-//				System.out.print(memberList.get(i)[j].toString());
-//				System.out.print(" ");
-//			}
-//			System.out.println();
-//		}
+		MemberDTO insertMember = new MemberDTO(id,pw,name,gender,addr);
+
+		try {
+			if(new File("memberDB.txt").exists()) {
+				fsOut = new FileOutputStream("memberDB.txt",true);
+				osOut = new MyOutPutStream(fsOut);
+			}else {
+				fsOut = new FileOutputStream("memberDB.txt",true);
+				osOut = new ObjectOutputStream(fsOut);
+			}
+			osOut.writeObject(insertMember);
+			osOut.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(fsOut != null) try{fsOut.close();}catch(IOException e){}
+			if(osOut != null) try{osOut.close();}catch(IOException e){}	
+			System.out.println("회원가입이 완료되었습니다!!");
+			System.out.println(insertMember.getName() + "님 반갑습니다!");
+		}
+
 	}
 	
 	public void update(String id, String pw, String name, String gender, String addr) {
@@ -39,28 +50,69 @@ public class MemberDAO {
 		
 	}
 	
-	public void select(String id) {
+	/* 여기서부터 select 부분 */
+	// Login
+	public int login(String id, String pw) throws IOException {
+		fsIn = new FileInputStream("memberDB.txt");
+		osIn = new ObjectInputStream(fsIn);
+		int loginOnOff = 0;
 		
+		while(true) {
+			try {
+				MemberDTO selectMember = (MemberDTO)osIn.readObject();
+				
+				if(id.equals(selectMember.getId()) && pw.equals(selectMember.getPw())) {
+					System.out.println("로그인 성공");
+					loginOnOff ++;
+					return loginOnOff;
+				}
+				
+			} catch (Exception e) {
+				System.out.println("ID 혹은 PW가 일치하지 않습니다.");
+				return loginOnOff;
+			}
+		}
+
 	}
 	
-	public void searchId(String name) {
-		for (int i=0; i < memberList.size(); i++) {
-			if(memberList.get(i)[2].toString().equals(name)) {
-				System.out.println(memberList.get(i)[0].toString());
+	// searchID
+	public void searchId(String name) throws IOException {
+		fsIn = new FileInputStream("memberDB.txt");
+		osIn = new ObjectInputStream(fsIn);
+		
+		while(true) {
+			try {
+				MemberDTO selectMember = (MemberDTO)osIn.readObject();
+				
+				if(name.equals(selectMember.getName())) {
+					System.out.println("회원님의 아이디 : " + selectMember.getId());
+					break;
+				}
+			
+			} catch (Exception e) {
+				System.out.println("일치하는 회원이 존재하지 않습니다.");
 				break;
-			}else if((memberList.size()-1)==i){
-				System.out.println("존재하지 않는 사용자");
 			}
 		}
 	}
 	
-	public void searchPw(String id, String name) {
-		for (int i=0; i < memberList.size(); i++) {
-			if(memberList.get(i)[2].toString().equals(name) && memberList.get(i)[0].toString().equals(id)) {
-				System.out.println(memberList.get(i)[1].toString());
+	// searchPW
+	public void searchPw(String id, String name) throws IOException {
+		fsIn = new FileInputStream("memberDB.txt");
+		osIn = new ObjectInputStream(fsIn);
+		
+		while(true) {
+			try {
+				MemberDTO selectMember = (MemberDTO)osIn.readObject();
+				
+				if(name.equals(selectMember.getName()) && id.equals(selectMember.getId())) {
+					System.out.println("회원님의 비밀번호 : " + selectMember.getPw());
+					break;
+				}
+				
+			} catch (Exception e) {
+				System.out.println("ID 혹은 이름이 일치하지 않습니다.");
 				break;
-			}else if((memberList.size()-1)==i){
-				System.out.println("존재하지 않는 사용자이거나 존재하지 않는 ID");
 			}
 		}
 	}
