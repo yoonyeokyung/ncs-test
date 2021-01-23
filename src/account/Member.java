@@ -125,13 +125,30 @@ public class Member {
 		}
 	}
 
-	public void update() {
-//		dao.update(null, null, null, null, null);
-		System.out.println(dto.getName()+"입니다.");
+	public void update(MemberDTO log) throws IOException {
+		System.out.println("1. id : " + log.getId());
+		System.out.println("2. pw : " + log.getPw());
+		System.out.println("3. name : " + log.getName());
+		System.out.println("4. gender : " + log.getGender());
+		System.out.println("5. addr : " + log.getAddr());		
+		System.out.println("0. 취소하기");
+		
+		System.out.print("수정할 번호를 입력해주세요 : ");
+		int no = sc.nextInt();
+		switch(no) {
+		case 1 : dao.update(log, 1); break;
+		case 2 : dao.update(log, 2); break;
+		case 3 : dao.update(log, 3); break;
+		case 4 : dao.update(log, 4); break;
+		case 5 : dao.update(log, 5); break;
+		case 0 : System.out.println("취소되었습니다."); break;
+		default : System.out.println("잘못된 번호가 입력됐습니다.");
+		}
+//		dao.update(log);
 	}
 
-	public void delete() {
-		dao.delete(null, null);
+	public void delete(MemberDTO log) throws IOException {
+		dao.delete(log);
 	}
 
 

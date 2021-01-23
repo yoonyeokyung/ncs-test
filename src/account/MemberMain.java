@@ -1,12 +1,17 @@
 package account;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class MemberMain {
 	
 	MemberDTO dto = new MemberDTO();
+	static MemberDTO log = null;
+	public void Login(MemberDTO log) {
+		this.log = log;
+	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		Scanner sc = new Scanner(System.in);
 		Member member = new Member();
 		int no;
@@ -38,10 +43,10 @@ public class MemberMain {
 							no = sc.nextInt();
 							switch(no) {
 								case 1 : 
-									member.update();
+									member.update(log);
 									break;
 								case 2 : 
-									member.delete();
+									member.delete(log);
 									break;
 								case 0 : return;
 								default : System.out.println("잘못된 번호 입력");

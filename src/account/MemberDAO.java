@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 public class MemberDAO {
 	
 	MemberDTO dto = new MemberDTO();
+	MemberMain log = new MemberMain();
 	
 	FileOutputStream fsOut = null;
 	ObjectOutputStream osOut = null;
@@ -42,12 +43,66 @@ public class MemberDAO {
 
 	}
 	
-	public void update(String id, String pw, String name, String gender, String addr) {
+	public void update(MemberDTO log, int logNum) throws IOException {
+		fsIn = new FileInputStream("memberDB.txt");
+		osIn = new ObjectInputStream(fsIn);
+		
+		while(true) {
+			try {
+				MemberDTO selectMember = (MemberDTO)osIn.readObject();
+				
+				if(log.equals(selectMember.getId()) && log.equals(selectMember.getPw())) {
+					
+					try {
+						fsOut = new FileOutputStream("memberDB.txt",true);
+						osOut = new ObjectOutputStream(fsOut);
+						
+//						if(logNum == 1) {
+//						
+//						}else if(logNum == 2) {
+//							
+//						}else if(logNum == 3) {
+//							
+//						}else if(logNum == 4) {
+//							
+//						}else if(logNum == 5) {
+//							
+//						}
+						
+					} catch (Exception e){
+						e.printStackTrace();
+					}
+
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
 	}
 	
-	public void delete(String id, String pw) {
+	public void delete(MemberDTO log) throws IOException {
+		fsIn = new FileInputStream("memberDB.txt");
+		osIn = new ObjectInputStream(fsIn);
 		
+		while(true) {
+			try {
+				MemberDTO selectMember = (MemberDTO)osIn.readObject();
+				
+				if(log.getId().equals(selectMember.getId()) && log.getPw().equals(selectMember.getPw())) {
+					try {
+						fsOut = new FileOutputStream("memberDB.txt",true);
+						osOut = new ObjectOutputStream(fsOut);
+					} catch (Exception e){
+						e.printStackTrace();
+					}
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/* 여기서부터 select 부분 */
@@ -64,6 +119,7 @@ public class MemberDAO {
 				if(id.equals(selectMember.getId()) && pw.equals(selectMember.getPw())) {
 					System.out.println("로그인 성공");
 					loginOnOff ++;
+					log.Login(selectMember);
 					return loginOnOff;
 				}
 				
@@ -116,5 +172,7 @@ public class MemberDAO {
 			}
 		}
 	}
+
+
 	
 }
