@@ -135,20 +135,49 @@ public class Member {
 		
 		System.out.print("수정할 번호를 입력해주세요 : ");
 		int no = sc.nextInt();
+		sc.nextLine();
 		switch(no) {
-			case 1 : dao.update(log, 1); break;
-			case 2 : dao.update(log, 2); break;
-			case 3 : dao.update(log, 3); break;
-			case 4 : dao.update(log, 4); break;
-			case 5 : dao.update(log, 5); break;
-			case 0 : System.out.println("취소되었습니다."); break;
-			default : System.out.println("잘못된 번호가 입력됐습니다.");
+			case 1 : 
+				System.out.print("변경할 id : ");
+				String id = sc.nextLine();
+				dao.update(log, 1, id); 
+				break;
+			case 2 : 
+				System.out.print("변경할 pw : ");
+				String pw = sc.nextLine();
+				dao.update(log, 2, pw); 
+				break;
+			case 3 : 
+				System.out.print("변경할 name : ");
+				String name = sc.nextLine();
+				dao.update(log, 3, name); 
+				break;
+			case 4 : 
+				System.out.print("변경할 gender : ");
+				String gender = sc.nextLine();
+				dao.update(log, 4, gender); 
+				break;
+			case 5 : 
+				System.out.print("변경할 addr : ");
+				String addr = sc.nextLine();
+				dao.update(log, 5, addr); 
+				break;
+			case 0 : 
+				System.out.println("취소되었습니다."); break;
+			default : 
+				System.out.println("잘못된 번호가 입력됐습니다.");
 		}
-//		dao.update(log);
 	}
 
 	public void delete(MemberDTO log) throws IOException {
-		dao.delete(log);
+		System.out.print("정말 삭제하시겠습니까? Yes : 1, No : 0");
+		int yesNo = sc.nextInt();
+		if(yesNo == 1) {
+			dao.delete(log);
+		}else {
+			System.out.println("삭제가 취소되었습니다.");
+		}
+		
 	}
 
 
