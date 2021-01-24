@@ -1,6 +1,7 @@
 package account;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Member {
@@ -25,17 +26,21 @@ public class Member {
 		}
 	}
 
-	public void join() {
+	public void join() throws IOException {
 		//ID
 		while(true) {
 			System.out.print("아이디 : ");
 			String id = sc.nextLine();
-			dto.setId(id);
-			
-			if(dto.getId() != "" && dto.getId() != null) {
-				break;
+			if(dao.idCheck(id)) {
+				System.out.println("이미 존재하는 아이디입니다.");
 			}else {
-				System.out.println("아이디를 입력해주세요.");
+				dto.setId(id);
+				
+				if(dto.getId() != "" && dto.getId() != null) {
+					break;
+				}else {
+					System.out.println("아이디를 입력해주세요.");
+				}
 			}
 		}
 		//PW
@@ -176,6 +181,23 @@ public class Member {
 			dao.delete(log);
 		}else {
 			System.out.println("삭제가 취소되었습니다.");
+		}
+		
+	}
+
+	public void showMovie(MemberDTO log) {
+		/* Date를 String으로 변환하는법 */
+		/*
+		 * Date from = new Date();
+		 * SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		 * String to = transFormat.format(from);
+		 */
+		String showMoive[][] = {
+				{"아이언맨1", "2021-01-23 09:50:21"},
+				{"아이언맨1", "2021-01-23 09:50:21"},
+		};
+		for(int i = 0; i < showMoive.length; i++) {
+			System.out.println(Arrays.toString(showMoive[i]));
 		}
 		
 	}

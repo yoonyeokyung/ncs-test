@@ -35,19 +35,60 @@ public class MemberMain {
 					if(member.login() == 1) {
 						while(true) {
 							System.out.println("원하는 명령을 선택하세요.");
-							System.out.println("1. 회원정보수정");
-							System.out.println("2. 회원탈퇴");
+							System.out.println("1. 계정관리");
+							System.out.println("2. 예매내역");
 							System.out.println("0. 로그아웃");
 							
 							System.out.print("입력 : ");
 							no = sc.nextInt();
 							switch(no) {
-								case 1 : 
-									member.update(log);
-									return;
-								case 2 : 
-									member.delete(log);
-									return;
+								case 1 : {
+									// 계정관리
+									while(true) {
+										System.out.println("원하는 명령을 선택하세요.");
+										System.out.println("1. 회원정보수정");
+										System.out.println("2. 회원탈퇴");
+										System.out.println("3. 관람내역");
+										System.out.println("0. 로그아웃");
+										
+										System.out.print("입력 : ");
+										no = sc.nextInt();
+										switch(no) {
+											case 1 : 
+												member.update(log);
+												return;
+											case 2 : 
+												member.delete(log);
+												return;
+											case 3 : 
+												member.showMovie(log);
+												break;
+											case 0 : return;
+											default : System.out.println("잘못된 번호 입력");
+										}
+									}
+								}
+								case 2 : {
+									//예매내역
+									while(true) {
+										System.out.println("원하는 명령을 선택하세요.");
+										System.out.println("1. 관람평등록");
+										System.out.println("2. QR티켓 및 결제내역");
+										System.out.println("0. 로그아웃");
+										
+										System.out.print("입력 : ");
+										no = sc.nextInt();
+										switch(no) {
+											case 1 : 
+												System.out.println("");
+												break;
+											case 2 : 
+												break;
+											case 0 : return;
+											default : System.out.println("잘못된 번호 입력");
+										}
+									}
+								}
 								case 0 : return;
 								default : System.out.println("잘못된 번호 입력");
 							}
