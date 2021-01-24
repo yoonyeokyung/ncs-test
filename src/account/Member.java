@@ -180,5 +180,10 @@ public class Member {
 		
 	}
 
+	public void showMovie(MemberDTO log) {
+		// 관람내역부분
+		
+	}
+
 
 }
