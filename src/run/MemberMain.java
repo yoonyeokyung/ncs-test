@@ -1,7 +1,10 @@
-package account;
+package run;
 
 import java.io.IOException;
 import java.util.Scanner;
+
+import account.Member;
+import dto.MemberDTO;
 
 public class MemberMain {
 	

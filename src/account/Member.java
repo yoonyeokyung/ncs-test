@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import dao.MemberDAO;
+import dto.MemberDTO;
+
 public class Member {
 	Scanner sc = new Scanner(System.in);
 	MemberDTO dto = new MemberDTO();
