@@ -2,6 +2,8 @@ package movieInformation.arraylist.run;
 
 import java.util.ArrayList;
 
+import movieInformation.arraylist.dto.MovieDTO;
+
 public class Movieinfo {
 
 
@@ -83,6 +85,7 @@ public class Movieinfo {
 	
 		}
 		
+	
 
 	
 
