@@ -1,10 +1,11 @@
 package administrator;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class AdminMain {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		Scanner sc = new Scanner(System.in);
 		

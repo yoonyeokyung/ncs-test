@@ -1,25 +1,34 @@
 package administrator;
 
-import java.util.ArrayList;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+import dto.MemberDTO;
 
 public class MemberManage {
 	
-	public void printMembers() {
+	FileInputStream fsIn = null;
+	ObjectInputStream osIn = null;
+	
+	public void printMembers() throws IOException {
+	
+	fsIn = new FileInputStream("memberDB.txt");
+	osIn = new ObjectInputStream(fsIn);
 		
-		ArrayList<String[]> member = new ArrayList<String[]>();
-		member.add(new String[] {"honggd", "hong01", "홍길동", "남", "경기"});
-		member.add(new String[] {"yougs", "you02", "유관순", "여", "서울"});
-		member.add(new String[] {"leess", "lee03", "이순신", "남", "경기"});
-		member.add(new String[] {"sinsid", "sin04", "신사임당", "여", "서울"});
-		member.add(new String[] {"yoonbg", "yoon05", "윤봉길", "남", "부산"});
-		
-		for(int i = 0; i < member.size(); i++) {             
-			System.out.print("ID : " + member.get(i)[0] + "\t");
-			System.out.print("PW : " + member.get(i)[1] + "\t");
-			System.out.print("이름 : " + member.get(i)[2] + "\t");
-			System.out.print("성별 : " + member.get(i)[3] + "\t");
-			System.out.print("지역 : " + member.get(i)[4]);
-			System.out.println();
-			}
+	while(true) {
+		try {
+			MemberDTO printall = (MemberDTO)osIn.readObject();
+			
+			System.out.println("ID \t이름 \t성별 \t주소");
+			System.out.print(printall.getId() + "\t" + printall.getName() + "\t" + 
+									printall.getGender() + "\t" + printall.getAddr());
+			System.out.println("");
+			System.out.println("");
+			
+		} catch (Exception e) {
+			break;
 		}
+	}
+	}
 }
