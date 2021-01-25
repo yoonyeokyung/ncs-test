@@ -204,7 +204,7 @@ public class MemberDAO {
 	public void searchPw(String id, String name) throws IOException {
 		fsIn = new FileInputStream("memberDB.txt");
 		osIn = new ObjectInputStream(fsIn);
-		
+		  
 		while(true) {
 			try {
 				MemberDTO selectMember = (MemberDTO)osIn.readObject();
