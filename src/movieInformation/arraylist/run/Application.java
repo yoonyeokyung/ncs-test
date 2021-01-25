@@ -8,50 +8,44 @@ import movieInformation.arraylist.dto.MovieDTO;
 public class Application {
 
 	public static void main(String[] args) {
-		ArrayList aList = new ArrayList();	
-		ArrayList bList = new ArrayList();	
-		ArrayList cList = new ArrayList();	
-		
-		aList.add("1위 ");
-		aList.add("2위 ");
-		aList.add("3위 ");
-		aList.add("4위 ");
-		
-		bList.add("1. 원더 우먼 1984");
-		bList.add("2. 소울");
-		bList.add("3. #아이엠 히어");
-		bList.add("4. 조제");
-		bList.add("5. 화양연화");
-		
-		cList.add("1. 이 안에 외계인이 있다");
-		cList.add("2. 톰과 제리");
-		cList.add("3. 호라이즌 제로");
-		
-		
 		MovieDTO ml = new MovieDTO();
-		
 		
 		Scanner sc = new Scanner(System.in);
 		System.out.print("1. 차트, 2. 현재상영작 3. 상영예정작 : ");
 		int click = sc.nextInt();
 		switch(click) {
 			case 1 :
-				System.out.println(aList);
+				ml.moviemenu1();
 				break;
 			case 2 :
-				System.out.println(bList);
+				ml.moviemenu2();
 				ml.movielist();
 				break;
 			case 3 :
-				System.out.println(cList);
+				ml.moviemenu3();
 				ml.movieschlist();
 				break;
 			default :
 				System.out.println("다시 입력해 주세요");
-		
-		
-		
-			}
+			
+		/* 	1. ml.get어쭈구 geter를 활용 해보는 방법 고민(MovieDTO에 geter에 값 넣기) 
+		 *  -> 해당하는 모든정보를 넣고 상황에 따른 값 swith를 써야 될 것으로 추정 (유지보수가 좋을 것으로 보임)
+		 * 
+		 *  2. toString을 활용해보거나	
+		 *  -> 영화 하나에 대한 정보를 한번에 다 출력
+		 *  
+		 *  3. MovieDTO에 toString을 getInfomation으로 바꿔서 진행해보거나... (참고: 챕터6 섹션4. UserDTO 81번 줄
+		 *  -> 2번과 마찬가지 아닐까 싶음
+		 *  
+		 *  셋 중 고민해서 작업해보기 
+		 *  2,3번 중 원하는 값만 출력 가능하다면?
+		 *  <MovieDTO> 활용해보기? 
+		 *  
+		 *  셋다 해보니 에러등... 더 고민해보자
+		 */
+				
+			
+		}
 	}
 	
 }

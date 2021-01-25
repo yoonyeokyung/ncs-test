@@ -25,6 +25,43 @@ public class MovieDTO {
 		this.review = review;
 		this.visitors = visitors;
 	}
+	public void moviemenu1() {
+		ArrayList aList = new ArrayList();	
+		
+		aList.add("1위 ");
+		aList.add("2위 ");
+		aList.add("3위 ");
+		aList.add("4위 ");
+		
+		System.out.println(aList);
+		
+	}
+	public void moviemenu2() {
+		
+		ArrayList bList = new ArrayList();	
+
+		bList.add("1. 원더 우먼 1984");
+		bList.add("2. 소울");
+		bList.add("3. #아이엠 히어");
+		bList.add("4. 조제");
+		bList.add("5. 화양연화");
+		
+		System.out.println(bList);
+
+	}
+	public void moviemenu3() {
+		
+		ArrayList cList = new ArrayList();	
+		
+		cList.add("1. 이 안에 외계인이 있다");
+		cList.add("2. 톰과 제리");
+		cList.add("3. 호라이즌 제로");
+		
+		System.out.println(cList);
+
+	}
+	
+	
 	public void movielist() {
 		
 		ArrayList<String> list1 = new ArrayList<String>();	
