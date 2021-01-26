@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Condition {
 	
-	public void choose() {
+	public static void main(String[] args){
 		
 		Calendar today = new GregorianCalendar();
 		
@@ -22,7 +22,6 @@ public class Condition {
 		System.out.print("번호를 입력하세요 : ");
 		int num = sc.nextInt();
 		
-		int i = 0;
 		switch(num) {
 		case 1 :
 			System.out.println("강남을 선택하셨습니다. 원하시는 관람 날짜와 시간을 선택해주세요");
@@ -42,9 +41,9 @@ public class Condition {
 		}
 		
 		// 시간 처리
+		int i = 0;
 		do {
-			System.out.print((today.get(Calendar.MONTH) + 1) + "월 ");
-			System.out.print((today.get(Calendar.DATE)) + i + "일");
+			System.out.print((today.get(Calendar.MONTH) + 1) + "월 " + (today.get(Calendar.DATE) + i) + "일");
 			System.out.println("");
 			System.out.println("9시 \t 11시 \t 14시 \t 17시 \t 20시");
 			System.out.println("");
