@@ -1,14 +1,13 @@
 package administrator;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Condition {
 	
 	public static void main(String[] args){
-		
-		Calendar today = new GregorianCalendar();
 		
 		Scanner sc = new Scanner(System.in);
 		
@@ -40,14 +39,20 @@ public class Condition {
 			break;
 		}
 		
-		// 시간 처리
-		int i = 0;
-		do {
-			System.out.print((today.get(Calendar.MONTH) + 1) + "월 " + (today.get(Calendar.DATE) + i) + "일");
-			System.out.println("");
+		// 시간 처리 
+		// (월이 넘어가도 날짜 넘어가게 수정 - 21/01/26)
+		Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        SimpleDateFormat df = new SimpleDateFormat("MM월 dd일");
+//      System.out.println("현재 : " + df.format(cal.getTime()));
+		
+		for(int i = 0 ; i < 5 ; i++) {
+			cal.add(Calendar.DATE, 1);
+			System.out.println(df.format(cal.getTime()));
 			System.out.println("9시 \t 11시 \t 14시 \t 17시 \t 20시");
 			System.out.println("");
-			i++;
-		} while(i < 5);
+		}
+		
+		
 	}
 }
