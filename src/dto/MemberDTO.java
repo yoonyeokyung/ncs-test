@@ -1,27 +1,33 @@
 package dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class MemberDTO implements Serializable{
-
-	private static final long serialVersionUID = -7034443345777681227L;
+	
+	private static final long serialVersionUID = -4680769863667160271L;
 	
 	private String id;
 	private String pw;
 	private String name;
-	private String gender;
+	private String birth;
+	private char gender;
 	private String addr;
+	private Date regDate = new java.util.Date();
 	
 	public MemberDTO() {
-
+		
 	}
-	
-	public MemberDTO(String id, String pw, String name, String gender, String addr) {
+
+	public MemberDTO(String id, String pw, String name, String birth, char gender, String addr, Date regDate) {
+		super();
 		this.id = id;
 		this.pw = pw;
 		this.name = name;
+		this.birth = birth;
 		this.gender = gender;
 		this.addr = addr;
+		this.regDate = regDate;
 	}
 
 	public String getId() {
@@ -48,11 +54,19 @@ public class MemberDTO implements Serializable{
 		this.name = name;
 	}
 
-	public String getGender() {
+	public String getBirth() {
+		return birth;
+	}
+
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
+
+	public char getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(char gender) {
 		this.gender = gender;
 	}
 
@@ -64,11 +78,20 @@ public class MemberDTO implements Serializable{
 		this.addr = addr;
 	}
 
+	public Date getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
+	}
+
 	@Override
 	public String toString() {
-		return "MemberDTO [id=" + id + ", pw=" + pw + ", name=" + name + ", gender=" + gender + ", addr=" + addr + "]";
+		return "MemberDTO [id=" + id + ", pw=" + pw + ", name=" + name + ", birth=" + birth + ", gender=" + gender
+				+ ", addr=" + addr + ", regDate=" + regDate + "]";
 	}
 	
 	
-	
+
 }

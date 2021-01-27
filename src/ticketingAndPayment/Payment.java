@@ -2,7 +2,7 @@ package ticketingAndPayment;
 
 import java.util.Scanner;
 
-import account.Member;
+import member.MemberManager;
 
 public class Payment {
 

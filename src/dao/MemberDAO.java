@@ -1,5 +1,8 @@
 package dao;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,90 +12,65 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import account.MyOutPutStream;
+import member.MyOutPutStream;
 import dto.MemberDTO;
 import run.MemberMain;
 
 public class MemberDAO {
 	
-	MemberDTO dto = new MemberDTO();
-	MemberMain log = new MemberMain();
-	
-	FileOutputStream fsOut = null;
 	ObjectOutputStream osOut = null;
-	
-	FileInputStream fsIn = null;
 	ObjectInputStream osIn = null;
 
-	public void insert(String id,String pw,String name, String gender, String addr) {
+	/* insert */
+	public boolean insert(MemberDTO insertMember) {
 		
-		MemberDTO insertMember = new MemberDTO(id,pw,name,gender,addr);
+		boolean yesNo = true;
 
 		try {
-			if(new File("memberDB.txt").exists()) {
-				fsOut = new FileOutputStream("memberDB.txt",true);
-				osOut = new MyOutPutStream(fsOut);
+			if(new File("DB/memberDB.txt").exists()) {
+				osOut = new MyOutPutStream(new BufferedOutputStream(new FileOutputStream("DB/memberDB.txt",true)));
 			}else {
-				fsOut = new FileOutputStream("memberDB.txt",true);
-				osOut = new ObjectOutputStream(fsOut);
+				osOut = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("DB/memberDB.txt",true)));
 			}
 			osOut.writeObject(insertMember);
 			osOut.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
+			yesNo = false;
 		} finally {
-			if(fsOut != null) try{fsOut.close();}catch(IOException e){}
 			if(osOut != null) try{osOut.close();}catch(IOException e){}	
-			System.out.println("회원가입이 완료되었습니다!!");
-			System.out.println(insertMember.getName() + "님 반갑습니다!");
 		}
-
+		
+		return yesNo;
+		
 	}
 	
-	public void update(MemberDTO log, int updNum, String what) throws IOException {
-		fsIn = new FileInputStream("memberDB.txt");
-		osIn = new ObjectInputStream(fsIn);
-		MemberDTO updateMember = null;
-		MemberDTO newUpdate = null;
-		
+	/* update */
+	public void update(MemberDTO memberInfo) {
+
 		ArrayList<MemberDTO> dummy = new ArrayList<MemberDTO>();
 		
-		while(true) {
-			try {
-				updateMember = (MemberDTO)osIn.readObject();
-				
-				if(log.getId().equals(updateMember.getId()) && log.getPw().equals(updateMember.getPw())) {
-					switch(updNum) {
-					case 1 : 
-						newUpdate = new MemberDTO(what, log.getPw(), log.getName(),log.getGender(), log.getAddr());
-						break;
-					case 2 : 
-						newUpdate = new MemberDTO(log.getId(), what, log.getName(),log.getGender(), log.getAddr());
-						break;
-					case 3 : 
-						newUpdate = new MemberDTO(log.getId(), log.getPw(), what,log.getGender(), log.getAddr());
-						break;
-					case 4 : 
-						newUpdate = new MemberDTO(log.getId(), log.getPw(), log.getName(),what, log.getAddr());
-						break;
-					case 5 : 
-						newUpdate = new MemberDTO(log.getId(), log.getPw(), log.getName(),log.getGender(), what);
-						break;
-					}
-					dummy.add(newUpdate);
-					
+		try {
+			osIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/memberDB.txt")));
+			
+			while(true) {
+				MemberDTO updateMember = (MemberDTO)osIn.readObject();
+				if(memberInfo.getId().equals(updateMember.getId())) {
+					dummy.add(memberInfo);		
 				}else {
 					dummy.add(updateMember);
-				}
-				
-			} catch (Exception e) {
-				break;
+				}	
 			}
+		} catch (EOFException e) {
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(osIn != null) try{osIn.close();}catch(IOException e){}	
 		}
 		
 		try {
-			fsOut = new FileOutputStream("memberDB.txt",false);
-			osOut = new ObjectOutputStream(fsOut);
+			osOut = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("DB/memberDB.txt",false)));
 			
 			for(MemberDTO object : dummy) {
 				osOut.writeObject(object);
@@ -100,42 +78,39 @@ public class MemberDAO {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-			
+			e.printStackTrace();	
 		} finally {
-			if(fsOut != null) try{fsOut.close();}catch(IOException e){}
 			if(osOut != null) try{osOut.close();}catch(IOException e){}	
-			System.out.println("수정이 완료되었습니다.");
-			System.out.println("회원정보수정으로인해 로그아웃됩니다.");
 		}
-	
+		
 	}
 	
-	public void delete(MemberDTO log) throws IOException {
-		fsIn = new FileInputStream("memberDB.txt");
-		osIn = new ObjectInputStream(fsIn);
+	/* delete */
+	public void delete(MemberDTO memberInfo) {
 
 		ArrayList<MemberDTO> dummy = new ArrayList<MemberDTO>();
 		
-		while(true) {
-			try {
+		try {
+			osIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/memberDB.txt")));
+			
+			while(true) {
 				MemberDTO deleteMember = (MemberDTO)osIn.readObject();
-				
-				if(log.getId().equals(deleteMember.getId()) && log.getPw().equals(deleteMember.getPw())) {
-					continue;
-					
+				if(memberInfo.getId().equals(deleteMember.getId()) && memberInfo.getPw().equals(deleteMember.getPw())) {
+					continue;				
 				}else {
 					dummy.add(deleteMember);
-				}
-				
-			} catch (Exception e) {
-				break;
+				}	
 			}
+		} catch (EOFException e) {
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(osIn != null) try{osIn.close();}catch(IOException e){}	
 		}
-
+		
 		try {
-			fsOut = new FileOutputStream("memberDB.txt",false);
-			osOut = new ObjectOutputStream(fsOut);
+			osOut = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("DB/memberDB.txt",false)));
 			
 			for(MemberDTO object : dummy) {
 				osOut.writeObject(object);
@@ -143,101 +118,86 @@ public class MemberDAO {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-			
+			e.printStackTrace();	
 		} finally {
-			if(fsOut != null) try{fsOut.close();}catch(IOException e){}
 			if(osOut != null) try{osOut.close();}catch(IOException e){}	
-			System.out.println("삭제가 완료되었습니다.");
-			System.out.println("그동안 이용해 주셔서 감사합니다.");
 		}
+		
 	}
 	
 	/* 여기서부터 select 부분 */
-	// Login
-	public int login(String id, String pw) throws IOException {
-		fsIn = new FileInputStream("memberDB.txt");
-		osIn = new ObjectInputStream(fsIn);
-		int loginOnOff = 0;
-		
-		while(true) {
-			try {
+	public ArrayList<MemberDTO> Member () {
+		ArrayList<MemberDTO> member = new ArrayList<>();
+		try {
+			osIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/memberDB.txt")));
+			
+			while(true) {
 				MemberDTO selectMember = (MemberDTO)osIn.readObject();
-				
-				if(id.equals(selectMember.getId()) && pw.equals(selectMember.getPw())) {
-					System.out.println("로그인 성공");
-					loginOnOff ++;
-					log.Login(selectMember);
-					return loginOnOff;
-				}
-				
-			} catch (Exception e) {
-				System.out.println("ID 혹은 PW가 일치하지 않습니다.");
-				return loginOnOff;
+				member.add(selectMember);
+			}
+			
+		} catch (EOFException e) {
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(osIn != null) try{osIn.close();}catch(IOException e){}	
+		}
+		return member;
+	}
+	
+	// Login
+	public MemberDTO login(String id, String pw) {
+		
+		MemberDTO loginOnOff = null;
+
+		for(MemberDTO m : Member()) {
+			if(m.getId().equals(id) && m.getPw().equals(pw)) {
+				loginOnOff = m;
 			}
 		}
 
+		return loginOnOff;
 	}
 	
 	// searchID
-	public void searchId(String name) throws IOException {
-		fsIn = new FileInputStream("memberDB.txt");
-		osIn = new ObjectInputStream(fsIn);
+	public String searchId(String name) {
 		
-		while(true) {
-			try {
-				MemberDTO selectMember = (MemberDTO)osIn.readObject();
-				
-				if(name.equals(selectMember.getName())) {
-					System.out.println("회원님의 아이디 : " + selectMember.getId());
-					break;
-				}
+		String searchId = null;
 			
-			} catch (Exception e) {
-				System.out.println("일치하는 회원이 존재하지 않습니다.");
-				break;
+		for(MemberDTO m : Member()) {
+			if(name.equals(m.getName())) {
+				searchId = m.getId();
 			}
 		}
+			
+		return searchId;
 	}
 	
 	// searchPW
-	public void searchPw(String id, String name) throws IOException {
-		fsIn = new FileInputStream("memberDB.txt");
-		osIn = new ObjectInputStream(fsIn);
-		  
-		while(true) {
-			try {
-				MemberDTO selectMember = (MemberDTO)osIn.readObject();
-				
-				if(name.equals(selectMember.getName()) && id.equals(selectMember.getId())) {
-					System.out.println("회원님의 비밀번호 : " + selectMember.getPw());
-					break;
-				}
-				
-			} catch (Exception e) {
-				System.out.println("ID 혹은 이름이 일치하지 않습니다.");
-				break;
+	public String searchPw(String name, String id) {
+		
+		String searchPw = null;
+			
+		for(MemberDTO m : Member()) {
+			if(name.equals(m.getName()) && id.equals(m.getId())) {
+				searchPw = m.getPw();
 			}
 		}
+			
+		return searchPw;
 	}
 
-	public boolean idCheck(String id) throws IOException {
-			fsIn = new FileInputStream("memberDB.txt");
-			osIn = new ObjectInputStream(fsIn);
-			while(true) {
-				try {
-					MemberDTO selectMember = (MemberDTO)osIn.readObject();
-					
-					if(id.equals(selectMember.getId())) {
-						return true;
-					}
-				
-				} catch (Exception e) {
-					return false;
-				}
+	public boolean doubleCheck(String id) {
+		boolean yesNo = false;
+		
+		for(MemberDTO m : Member()) {
+			if(id.equals(m.getId())) {
+				yesNo = true;
 			}
+		}
+		
+		return yesNo;
 	}
-
-
 	
 }

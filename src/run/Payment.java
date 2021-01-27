@@ -6,8 +6,8 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.Scanner;
 
-import account.Member;
 import dao.PaymentDAO;
+import member.MemberManager;
 
 public class Payment {
 

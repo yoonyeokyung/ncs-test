@@ -1,4 +1,4 @@
-package account;
+package member;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
