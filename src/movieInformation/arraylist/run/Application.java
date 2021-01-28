@@ -1,14 +1,13 @@
 package movieInformation.arraylist.run;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
-import movieInformation.arraylist.dto.MovieDTO;
+import movieInformation.arraylist.dao.MovieDAO;
 
 public class Application {
 
 	public static void main(String[] args) {
-		MovieDTO ml = new MovieDTO();
+		MovieDAO ml = new MovieDAO();
 		
 		Scanner sc = new Scanner(System.in);
 		System.out.print("1. 차트, 2. 현재상영작 3. 상영예정작 : ");
