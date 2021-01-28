@@ -69,34 +69,34 @@ public class ConditionDAO {
 			}
 		}
 
-		ObjectInputStream objIn = null;	
-
-		try {
-			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/conditionDB.txt")));
-
-			int i = 0;
-			while(true) {
-				System.out.println((ConditionDTO)objIn.readObject());
-			} 
-
-		} catch (EOFException e) {
-			System.out.println("읽기 완료");
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			if(objIn != null) {
-				try {
-					objIn.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+//		ObjectInputStream objIn = null;	
+//
+//		try {
+//			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/conditionDB.txt")));
+//
+//			int i = 0;
+//			while(true) {
+//				System.out.println((ConditionDTO)objIn.readObject());
+//			} 
+//
+//		} catch (EOFException e) {
+//			System.out.println("읽기 완료");
+//
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (ClassNotFoundException e) {
+//			e.printStackTrace();
+//		} finally {
+//			if(objIn != null) {
+//				try {
+//					objIn.close();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
 
 
 
