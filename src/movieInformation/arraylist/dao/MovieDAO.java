@@ -142,7 +142,7 @@ public class MovieDAO {
 			schList3.add("work");
 			schList3.add("riview");
 			schList3.add("visitors");
-			
+			  
 			Scanner sc = new Scanner(System.in);
 			System.out.print("원하는 영화의 숫자를 입력해 주세요 : ");
 			int click2 = sc.nextInt();
