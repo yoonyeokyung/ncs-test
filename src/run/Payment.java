@@ -21,7 +21,7 @@ public class Payment {
 		PaymentDAO dao = new PaymentDAO();
 
 		int number;					// 페이지 넘기는 숫자
-		String movid = null;		// 영화 이름 변수
+		String movie = null;		// 영화 이름 변수
 		int movidPrice = 0;			// 영화 가격 변수
 		String date = null;			// 영화 날짜 변수
 		int time = 0; 				// 영화 시간 변수
@@ -50,11 +50,12 @@ public class Payment {
 				case 1:
 					System.out.println();
 					/* 영화선택 */
-					movid = dao.movieTitle();
+					movie = dao.movieTitle();
 					movidPrice = dao.moviePrice();
 
-					/* 현제 선택 정보 */
-					dao.thePresent1(movid, movidPrice);
+					/* 현재 선택 현황 */
+					System.out.println(movie + " " + movidPrice + "원");
+					System.out.println();
 					
 					number = 2;
 					break;
@@ -65,8 +66,9 @@ public class Payment {
 					date = dao.movieDate();
 					time = dao.movieTime();
 
-					/* 현제 선택 정보 */
-					dao.thePresent2(movid, movidPrice, date, time);
+					/* 현재 선택 현황 */
+					System.out.println(movie + " " + movidPrice + "원");
+					System.out.println(date + " " + time + "시");
 					
 					number = 3;
 					break;
@@ -76,8 +78,20 @@ public class Payment {
 					System.out.println();
 					seat = dao.movieSeat();
 
-					/* 현제 선택 정보 */
-					dao.thePresent3(movid, movidPrice, date, time, seat, seat2);
+					/* 현재 선택 현황 */
+					System.out.println(movie + " " + movidPrice + "원");
+					System.out.println(date + " " + time + "시");
+					System.out.print("좌석번호 : ");
+					for (int i = 0; i < seat.length; i++) {
+						if (seat[i].charAt(0) != '0') {
+							System.out.print(seat[i] + "번호  ");
+							ticketNumber++;
+						}
+					}
+					System.out.println();
+					System.out.println("현재 총 금액 : " + movidPrice * ticketNumber + "원");
+					System.out.println();
+					dao.print2("송준원",seat[0], seat[1], seat[2], seat[3], seat[4]);
 					
 					number = 4;
 					break;
@@ -87,12 +101,30 @@ public class Payment {
 					product = dao.productTitle();
 					productPrice = dao.productPrice();
 					
+					
+
+					
+					/* 현재 선택 현황 */
+					System.out.println(movie + " " + movidPrice + "원");
+					System.out.println(date + " " + time + "시");
+					System.out.print("좌석번호 : ");
+					for (int i = 0; i < seat.length; i++) {
+						if (seat[i].charAt(0) != '0') {
+							System.out.print(seat[i] + "번호  ");
+						}
+					}
+					System.out.println();
+					for (int i = 0; i < product.length; i++) {
+						if (product[i].charAt(0) != '0') {
+							System.out.print("상품 : " + product[i]);
+						}
+					}
 					/* 총액 구하기 위한 식 */
 					aLumpSum = movidPrice * ticketNumber + productPrice;
-
-					/* 현제 선택 정보 */
-					dao.thePresent4(movid, movidPrice, date, time, seat, seat2, product, product2, productPrice, aLumpSum);
-					
+					System.out.println("상품 총 금액 : " + productPrice);
+					System.out.println("현재 총 금액 : " + aLumpSum + "원");
+					System.out.println();
+					dao.print3("송준원",product[0], product[1]);
 					number = 5;
 					break;
 					
@@ -101,11 +133,33 @@ public class Payment {
 					cardName = dao.cardName();
 					cardDiscount = dao.cardDiscount();
 
-					/* 현제 선택 정보 */
-					dao.thePresent5(movid, movidPrice, date, time, seat, seat2, product, product2, productPrice, cardName, cardDiscount, aLumpSum);	// 입 출력
+					/* 현재 선택 현황 */
+					System.out.println(movie + " " + movidPrice + "원");
+					System.out.println(date + " " + time + "시");
+					System.out.print("좌석번호 : ");
+					for (int i = 0; i < seat.length; i++) {
+						if (seat[i].charAt(0) != '0') {
+							System.out.print(seat[i] + "번호  ");
+							seat2 += seat[i] + " ";
+							ticketNumber++;
+						}
+					}
+					System.out.println();
+					for (int i = 0; i < product.length; i++) {
+						if (product[i].charAt(0) != '0') {
+							System.out.print("상품 : " + product[i]);
+							product2 += product[i] + " ";
+							ticketNumber++;
+						}
+					}
+					System.out.println("상품 총 금액 : " + productPrice);
+					System.out.println("카드선택 : " + cardName + "카드 할인률 : " + (int) (cardDiscount * 100) + "%");
+					System.out.println("현재 총 금액 : " + (int) (aLumpSum - (aLumpSum * (cardDiscount/100))) + "원");
+					System.out.println();
 					
 					/* 입출력 하기 */
-					dao.print("송준원", movid, time + "시", cardName, (int)(aLumpSum / 100 * (100-cardDiscount)));	
+					dao.print("송준원", movie, time + "시", cardName, (int)(aLumpSum - (aLumpSum * (cardDiscount/100))));
+					
 					
 					number = 6;
 					break;
