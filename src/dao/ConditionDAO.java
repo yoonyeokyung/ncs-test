@@ -28,7 +28,7 @@ public class ConditionDAO {
 		ObjectOutputStream objOut = null;
 
 		try {
-			objOut = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("DB/condTest.txt")));
+			objOut = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("DB/conditionDB.txt")));
 
 			List<ConditionDTO> list = new ArrayList<ConditionDTO>();
 
@@ -72,7 +72,7 @@ public class ConditionDAO {
 		ObjectInputStream objIn = null;	
 
 		try {
-			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/condTest.txt")));
+			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/conditionDB.txt")));
 
 			int i = 0;
 			while(true) {
