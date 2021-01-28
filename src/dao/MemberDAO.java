@@ -5,16 +5,14 @@ import java.io.BufferedOutputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import member.MyOutPutStream;
 import dto.MemberDTO;
-import run.MemberMain;
+import member.MyOutPutStream;
 
 public class MemberDAO {
 	
@@ -50,23 +48,12 @@ public class MemberDAO {
 
 		ArrayList<MemberDTO> dummy = new ArrayList<MemberDTO>();
 		
-		try {
-			osIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/memberDB.txt")));
-			
-			while(true) {
-				MemberDTO updateMember = (MemberDTO)osIn.readObject();
-				if(memberInfo.getId().equals(updateMember.getId())) {
-					dummy.add(memberInfo);		
-				}else {
-					dummy.add(updateMember);
-				}	
-			}
-		} catch (EOFException e) {
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if(osIn != null) try{osIn.close();}catch(IOException e){}	
+		for(MemberDTO m : Member()) {
+			if(memberInfo.getId().equals(m.getId())) {
+				dummy.add(memberInfo);		
+			}else {
+				dummy.add(m);
+			}	
 		}
 		
 		try {
@@ -90,23 +77,12 @@ public class MemberDAO {
 
 		ArrayList<MemberDTO> dummy = new ArrayList<MemberDTO>();
 		
-		try {
-			osIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/memberDB.txt")));
-			
-			while(true) {
-				MemberDTO deleteMember = (MemberDTO)osIn.readObject();
-				if(memberInfo.getId().equals(deleteMember.getId()) && memberInfo.getPw().equals(deleteMember.getPw())) {
-					continue;				
-				}else {
-					dummy.add(deleteMember);
-				}	
-			}
-		} catch (EOFException e) {
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if(osIn != null) try{osIn.close();}catch(IOException e){}	
+		for(MemberDTO m : Member()) {
+			if(memberInfo.getId().equals(m.getId()) && memberInfo.getPw().equals(m.getPw())) {
+				continue;				
+			}else {
+				dummy.add(m);
+			}	
 		}
 		
 		try {
