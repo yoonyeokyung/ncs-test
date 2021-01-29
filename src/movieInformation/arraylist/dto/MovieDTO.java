@@ -1,9 +1,10 @@
 package movieInformation.arraylist.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MovieDTO {
+public class MovieDTO implements Comparable, Serializable{
 	private String movie;		// 영화제목
 	private String story;		// 줄거리
 	private String director;	// 감독
@@ -12,6 +13,7 @@ public class MovieDTO {
 	private String review;		// 관람평
 	private int visitors;		// 누적 관람객 수	
 
+	private static final long serialVersionUID = 1786173601363444283L;
 	public MovieDTO() {
 	}
 
@@ -25,8 +27,20 @@ public class MovieDTO {
 		this.review = review;
 		this.visitors = visitors;
 	}
+	
+	public MovieDTO(String movie2, String story2, String director2, String actor2, String work2) {
+		this.movie = movie2;
+		this.story = story2;
+		this.director = director2;
+		this.actor = actor2;
+		this.work = work2;
+	}
 
 		
+
+	public MovieDTO(java.lang.String string, int i) {
+	}
+
 
 	public String getMovie() {
 		return movie;
@@ -88,6 +102,12 @@ public class MovieDTO {
 	public String toString() {
 		return "MovieDTO [movie=" + movie + ", story=" + story + ", director=" + director + ", actor=" + actor
 				+ ", work=" + work + ", review=" + review + ", visitors=" + visitors + "]";
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		/* 오름 차순 */
+		return this.getVisitors() - ((MovieDTO)o).getVisitors();			// this. - 매개변수 다운캐스팅 = 오름차순
 	}
 
 }
