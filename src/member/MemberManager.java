@@ -1,7 +1,10 @@
 package member;
 
+import java.util.ArrayList;
+
 import dao.MemberDAO;
 import dto.MemberDTO;
+import dto.PaymentDTO;
 
 public class MemberManager {
 	
@@ -47,6 +50,18 @@ public class MemberManager {
 		
 		boolean yesNo = dao.doubleCheck(id);
 		return yesNo;
+	}
+
+	public ArrayList<String> showMovie(MemberDTO memberInfo) {
+		
+		ArrayList<String> show = dao.showMovie(memberInfo);
+		return show;
+	}
+
+	public ArrayList<PaymentDTO> showPayment(MemberDTO memberInfo) {
+		
+		ArrayList<PaymentDTO> show = dao.showPayment(memberInfo);
+		return show;
 	}
 	
 }

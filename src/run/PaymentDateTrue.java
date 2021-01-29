@@ -18,7 +18,7 @@ public class PaymentDateTrue {
 		
 	
 		try {
-			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/product.txt")));
+			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/payment.txt")));
 			
 			int i = 0;
 			while(true) {

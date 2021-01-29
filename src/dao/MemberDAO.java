@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import dto.MemberDTO;
+import dto.PaymentDTO;
 import member.MyOutPutStream;
 
 public class MemberDAO {
@@ -102,7 +103,8 @@ public class MemberDAO {
 	}
 	
 	/* 여기서부터 select 부분 */
-	public ArrayList<MemberDTO> Member () {
+	/* member */
+	public ArrayList<MemberDTO> Member() {
 		ArrayList<MemberDTO> member = new ArrayList<>();
 		try {
 			osIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/memberDB.txt")));
@@ -174,6 +176,58 @@ public class MemberDAO {
 		}
 		
 		return yesNo;
+	}
+
+	/* payment */
+	public ArrayList<PaymentDTO> Payment() {
+		
+		ArrayList<PaymentDTO> payment = new ArrayList<>();
+		try {
+			osIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/payment.txt")));
+			
+			while(true) {
+				PaymentDTO selectPayment = (PaymentDTO)osIn.readObject();
+				payment.add(selectPayment);
+			}
+			
+		} catch (EOFException e) {
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(osIn != null) try{osIn.close();}catch(IOException e){}	
+		}
+		return payment;
+	}
+	
+	// 영화 내역 추출
+	public ArrayList<String> showMovie(MemberDTO memberInfo) {
+		
+		String id = memberInfo.getId();
+		ArrayList<String> show = new ArrayList<>();
+		
+		for(PaymentDTO p : Payment()) {
+			if(id.equals(p.getInckName())) {
+				show.add(p.getMovie());
+			}
+		}
+		
+		return show;
+	}
+
+	// 결제 내역 추출
+	public ArrayList<PaymentDTO> showPayment(MemberDTO memberInfo) {
+		
+		String id = memberInfo.getId();
+		ArrayList<PaymentDTO> show = new ArrayList<>();
+		
+		for(PaymentDTO p : Payment()) {
+			if(id.equals(p.getInckName())) {
+				show.add(p);
+			}
+		}
+		
+		return show;
 	}
 	
 }

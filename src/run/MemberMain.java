@@ -3,6 +3,7 @@ package run;
 import java.util.Scanner;
 
 import dto.MemberDTO;
+import dto.PaymentDTO;
 import member.MemberManager;
 
 public class MemberMain {
@@ -187,7 +188,10 @@ public class MemberMain {
 												System.out.println("그동안 이용해 주셔서 감사합니다.");
 												return;
 											case 3 : 
-//												memberManager.showMovie(memberInfo);
+												// 결제내역DB 연동 (송준원)
+												for(String s : memberManager.showMovie(memberInfo)) {
+													System.out.println(s);
+												}
 												break;
 											case 0 : return;
 											default : System.out.println("잘못된 번호 입력");
@@ -206,8 +210,13 @@ public class MemberMain {
 										no = sc.nextInt();
 										switch(no) {
 											case 1 : 
+												// 영화DB 및 결제내역DB 연동 (박정서, 송준원)
 												break;
 											case 2 : 
+												// 결제내역DB 연동 (송준원)
+												for(PaymentDTO p : memberManager.showPayment(memberInfo)) {
+													System.out.println("영화 : " + p.getMovie() + ", 사용하신 카드 : " + p.getCardName() + ", 결제금액 : " + p.getPay());
+												}
 												break;
 											case 0 : return;
 											default : System.out.println("잘못된 번호 입력");
