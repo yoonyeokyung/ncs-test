@@ -1,29 +1,73 @@
 package dao;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Scanner;
 
 import dto.PaymentDTO;
+import dto.ProductDTO;
 import ticketingAndPayment.MyOutputStream;
 
 public class PaymentDAO {
 
 	Scanner sc = new Scanner(System.in);
 
-	/* 상품 부분 */
-	String[] productchoice = { "0", "0", "0", "0", "0" };
-	int priceProduct;
+	/* 상품 부분 받아오기 */
+	String productchoice = "";
+	int priceProduct = 0;
+	ArrayList<ProductDTO> ProductList = new ArrayList<ProductDTO>();		// 정보 다받아오기
+	ArrayList ProductListName = new ArrayList();							// 이름만 받아오기
+	ArrayList ProductListPrice = new ArrayList();							// 가격만 받아오기
+	
+	/* 상품목록 */
+	public ArrayList ProductListName() {
+		
+		ObjectInputStream objIn = null;
+			
+		try {
+			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/productDB.txt")));
+			
+			int i = 0;
+			while(true) {
+				ProductDTO m = (ProductDTO)objIn.readObject();
+				System.out.println(m.getProductName());
+				ProductList.add(m);
+				ProductListName.add(m.getProductName());
+				ProductListPrice.add(m.getProductPrice());
+			}
+			
+			
+		
+		} catch (EOFException e) {
+		
+			System.out.println("파일 읽기 완료!");
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return ProductListName;
+	}
+	
 
-	/* 카드 부분 */
-
-
-	private Object m;
-
+	
 	
 
 	/* movie */
@@ -61,48 +105,30 @@ public class PaymentDAO {
 	}
 	
 	/* seat */
-	public String[] movieSeat(int choiceNumber,int choice2) {
-	
-		
-		
-		String[] movieSeat = { "a1", "a2", "a3", "a4", "a5" }; // 영화관 이미지 부분 선택 되면 예매 바뀌는 기능
-		String[] movieSeatchoice = { "0", "0", "0", "0", "0" }; // 좌석의 기본 값을 가지고 있다가 나중에 return 할떄 예매 부분 남아있는 값 넣어주기
-		int movieSeatchoice2 = 1; // 좌석의 기본 값을 가지고 있다가 나중에 return 할떄 예매 부분 남아있는 값 넣어주기
+	public int movieSeat(int choiceNumber, int price) {
+
+		int moviePrice = 0;
 			
-			for (int i = 0; i < movieSeatchoice2; i++) {
-				if (movieSeatchoice[i].charAt(0) == '0')
-					movieSeatchoice[i] = movieSeat[choiceNumber - 1]; // 사용자가 선택한 좌석 번호를 movieSeatchoice 넣어주기
-			}
-			movieSeatchoice2 += 1;
-
-			movieSeat[choiceNumber - 1] = "예매"; // 사용자가 선택했으니 보여주는 화면에서는 예매라고 보여주기
-
-		return movieSeatchoice;
-
+		moviePrice += choiceNumber * price;
+		return moviePrice;
 	}
 	
 	/* product */
-	public String[] productTitle(int choiceProduct , int choiceConut) {
-		String[] productList = { "팝콘", "콜라" };
-		String[] productListPrice = { "5000", "2000" };
-		int choiceNumber = 0; // 사용자가 선택한 번호를 담기 위한 변수
-		int price = 0;
-			productchoice[choiceNumber] = productList[choiceProduct - 1] + choiceConut;
-			for (int i = 0; i < productchoice.length; i++) {
-				if (productchoice[i].charAt(0) != '0') {
-					if (productchoice[i].charAt(0) == '팝') {
-						price += 5000 * choiceConut; // 팝콘
-					} else {
-						price += 2000 * choiceConut; // 콜라
-					}
-				}
-			}
-
-			choiceNumber++;
-
-		priceProduct = priceProduct + price;
+	public String productTitle(String choiceProduct ,int choiceProductPrice, int choiceConut) {
+		int ProductPrice = (int) ProductListPrice.get(choiceProductPrice - 1);
+		int price = ProductPrice * choiceConut;
+		productchoice += choiceProduct + " ";
+//		ProductListPrice(choiceProductPrice - 1)
+				
+		priceProduct += price;
 		return productchoice;
 	}
+
+	
+
+
+
+
 
 	public int productPrice() {
 		return priceProduct;
@@ -110,13 +136,26 @@ public class PaymentDAO {
 	
 	/* card */
 	public Double cardDiscount(int choiceCard) {
-		Double[] cardListDiscount = { 0.03, 0.05, 0.01, 0.02 };
-
+		Double[] cardListDiscount = { 3.0, 5.0, 1.0, 2.0 };
+		
 		return cardListDiscount[choiceCard - 1];
 	}
+	
+	
+	/* 현재 시간 + 이름*/
+	public String toDay() {
+		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+		
+		Calendar time = Calendar.getInstance();
+		       
+		String formatTime = format1.format(time.getTime())+"송준원";
+		return formatTime;
+	}
 
-	/* 영와정보 압출력 */
-	public String print(String inckName, String movie, String time, String cardName, int pay) {
+
+	/* 영화정보 입출력 */
+	public String print(String nickName, String movie, String time, String seat, String viewer, int ticketPrice,
+			String product, String productPrice, String cardName, String cardDiscount, int pay, String toDay) {
 
 		ObjectOutputStream objOut = null;
 		String print = "예매완료";
@@ -132,7 +171,7 @@ public class PaymentDAO {
 				objOut = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("DB/payment.txt")));
 			}
 
-			PaymentDTO paDto = new PaymentDTO(inckName, movie, time, cardName, pay);
+			PaymentDTO paDto = new PaymentDTO(nickName, movie, time, seat, viewer, ticketPrice, product, productPrice, cardName, cardDiscount, pay, toDay);
 			objOut.writeObject(paDto);
 			System.out.println("파일 저장 성공!");
 
@@ -176,78 +215,9 @@ public class PaymentDAO {
 		return print;
 	}
 
-	/* 영와정보 압출력 */
-	public void print2(String inckName, String seat1, String seat2, String seat3, String seat4, String seat5) {
-		ObjectOutputStream objOut = null;
-		try {
+	
+	
 
-			if (new File("DB/seat.txt").exists()) {
-				System.out.println("있을 때");
-				/* 기존에 파일이 있을 경우 */
-				objOut = new MyOutputStream(new BufferedOutputStream(new FileOutputStream("DB/seat.txt", true)));
-			} else {
-				System.out.println("없을 때");
-				/* 기존에 파일이 없을 경우 */
-				objOut = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("DB/seat.txt")));
-			}
-
-			PaymentDTO paDto = new PaymentDTO(inckName, seat1, seat2, seat3, seat4, seat5);
-			objOut.writeObject(paDto);
-			System.out.println("파일 저장 성공!");
-
-		} catch (FileNotFoundException e) {
-
-			e.printStackTrace();
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		} finally {
-			if (objOut != null) {
-				try {
-					objOut.close();
-				} catch (IOException e) {
-
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
-	public void print3(String inckName, String product, String product2) {
-		ObjectOutputStream objOut = null;
-		try {
-
-			if (new File("DB/product.txt").exists()) {
-				System.out.println("있을 때");
-				/* 기존에 파일이 있을 경우 */
-				objOut = new MyOutputStream(new BufferedOutputStream(new FileOutputStream("DB/product.txt", true)));
-			} else {
-				System.out.println("없을 때");
-				/* 기존에 파일이 없을 경우 */
-				objOut = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("DB/product.txt")));
-			}
-
-			PaymentDTO paDto = new PaymentDTO(inckName, product, product2);
-			objOut.writeObject(paDto);
-			System.out.println("파일 저장 성공!");
-
-		} catch (FileNotFoundException e) {
-
-			e.printStackTrace();
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		} finally {
-			if (objOut != null) {
-				try {
-					objOut.close();
-				} catch (IOException e) {
-
-					e.printStackTrace();
-				}
-			}
-		}
-
-	}
+	
 
 }

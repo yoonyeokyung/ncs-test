@@ -6,9 +6,12 @@ public class MainFrame extends JFrame{
 	
 	public MainFrame() {
 		
-		this.setBounds(300,300,1200,200); // 화면 크기 회의
+		this.setBounds(200,100,1200,850);
 		// setBounds(x좌표,y좌표,가로,세로)
-//		new MainPage(this);
+		
+		new Header(this);
+		new LoginPage(this);
+		new Footer(this);
 		
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
