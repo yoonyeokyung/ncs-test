@@ -9,20 +9,31 @@ public class ProductDTO implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6812653877897433384L;
+	private static final long serialVersionUID = -3762752264199912460L;
+	private	String productNum;				// 상품번호
 	private String productName;				// 상품명
 	private int productPrice;				// 상품가격
 	
+	public List<String> prodNumArr = new ArrayList<String>();
 	public List<String> prodNameArr = new ArrayList<String>();
 	public List<Integer> prodPriceArr = new ArrayList<Integer>();
 	
 	public ProductDTO() {
 	}
 
-	public ProductDTO(String productName, int productPrice) {
-		super();
+	public ProductDTO(String productNum, String productName, int productPrice) {
+		this.productNum = productNum;
 		this.productName = productName;
 		this.productPrice = productPrice;
+	}
+
+
+	public String getProductNum() {
+		return productNum;
+	}
+
+	public void setProductNum(String productNum) {
+		this.productNum = productNum;
 	}
 
 	public String getProductName() {
@@ -41,9 +52,24 @@ public class ProductDTO implements Serializable {
 		this.productPrice = productPrice;
 	}
 
+	
 	@Override
 	public String toString() {
-		return "ProductDTO [productName=" + productName + ", productPrice=" + productPrice + "]";
+		return "ProductDTO [productNum=" + productNum + ", productName=" + productName + ", productPrice="
+				+ productPrice + "]";
+	}
+
+	public void prodNumSelect() {
+		prodNumArr.add("1");
+		prodNumArr.add("2");
+		prodNumArr.add("3");
+		prodNumArr.add("4");
+		prodNumArr.add("5");
+		prodNumArr.add("6");
+		prodNumArr.add("7");
+		prodNumArr.add("8");
+		prodNumArr.add("9");
+		
 	}
 	
 	public void prodNameSelect() {
@@ -70,6 +96,5 @@ public class ProductDTO implements Serializable {
 		prodPriceArr.add(5000);
 		
 	}
-	
 		
 }

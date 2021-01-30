@@ -16,30 +16,32 @@ import dto.ProductDTO;
 
 public class ProductDAO {
 
-	public static void main(String[] args) {
+	ProductDTO pDTO = new ProductDTO();
+
+	public void prodDB() {	// product DB 초기화
 		
-		ProductDTO pDTO = new ProductDTO();
+		pDTO.prodNumSelect();
 		pDTO.prodNameSelect();
 		pDTO.prodPriceSelect();
 		
 		ObjectOutputStream objOut = null;
 		
+		List<ProductDTO> list = new ArrayList<ProductDTO>();
+		
 		try {
 			objOut = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("DB/productDB.txt")));
-		
-			List<ProductDTO> list = new ArrayList<ProductDTO>();
 			
 			for(int i = 0; i < pDTO.prodNameArr.size(); i++) {
+				String productNum = pDTO.prodNumArr.get(i);		// 추가
 				String productName = pDTO.prodNameArr.get(i);
 				int productPrice = pDTO.prodPriceArr.get(i);
-				ProductDTO p = new ProductDTO(productName, productPrice);
+				ProductDTO p = new ProductDTO(productNum, productName, productPrice);
+				// productNum 추가
 				list.add(p);
 			}
-		
 			for(int i = 0 ; i < list.size() ; i++) {
 				objOut.writeObject(list.get(i));
 			}
-		
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -56,38 +58,126 @@ public class ProductDAO {
 		
 		
 		
-//		ObjectInputStream objIn = null;	
-//
-//		try {
-//			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/productDB.txt")));
-//
-//			int i = 0;
-//			while(true) {
+		ObjectInputStream objIn = null;	
+
+		try {
+			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/productDB.txt")));
+
+			while(true) {
+				System.out.println((ProductDTO)objIn.readObject());
+			} 
+		} catch (EOFException e) {
+			System.out.println("초기화 완료");
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if(objIn != null) {
+				try {
+					objIn.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}	// prodDB 종료
+	
+	
+	
+	public List<ProductDTO> readDB() {	// 수정 후 DB read
+				
+		ObjectInputStream objIn = null;	
+		List<ProductDTO> list = new ArrayList<ProductDTO>();
+		
+		try {
+			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/productDB.txt")));
+
+			while(true) {
 //				System.out.println((ProductDTO)objIn.readObject());
-//			} 
-//
-//		} catch (EOFException e) {
-//			System.out.println("읽기 완료");
-//
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		} finally {
-//			if(objIn != null) {
-//				try {
-//					objIn.close();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
+				list.add((ProductDTO)objIn.readObject());
+			}	
+		} catch (EOFException e) {
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		
+		return list;	
+	}	// readDB 종료
+	
+	
+	
+	
+	public void prodUpdate(ProductDTO pDTO) {	// product 상품/가격 수정
 		
+		ObjectInputStream objIn = null;
 		
+		List<ProductDTO> list = new ArrayList<ProductDTO>();
 		
-	}	// main 종료
+		try {
+			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/productDB.txt")));
+					
+				while(true) {
+					ProductDTO update = (ProductDTO) objIn.readObject();
+//					System.out.println((ProductDTO) objIn.readObject());
+					if(update.getProductNum().equals(pDTO.getProductNum())) {
+						list.add(pDTO);
+					}else {
+						list.add(update);
+					}
+				}
+				
+		} catch (EOFException e) {
+			
+		} catch (IOException e) {
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(objIn != null)
+			try {
+				objIn.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		ObjectOutputStream objOut=null;
+		
+		try {
+			objOut = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("DB/productDB.txt", false)));
+				
+			for(ProductDTO object : list) {
+				objOut.writeObject(object);
+			}
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if(objOut != null) {
+				try {
+					objOut.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		readDB();
+		System.out.println("수정 완료 되었습니다.");
+		
+	}	// prodUpdate 종료
+
 
 }	// class 종료
