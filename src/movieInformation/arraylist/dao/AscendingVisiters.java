@@ -1,4 +1,4 @@
-package movieInformation.arraylist.comparator;
+package movieInformation.arraylist.dao;
 
 import java.util.Comparator;
 

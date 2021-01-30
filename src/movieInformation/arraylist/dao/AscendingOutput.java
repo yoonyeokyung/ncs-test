@@ -1,4 +1,4 @@
-package movieInformation.arraylist.schMovie;
+package movieInformation.arraylist.dao;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -9,11 +9,13 @@ import java.io.ObjectOutputStream;
 
 import movieInformation.arraylist.dto.MovieDTO;
 
-public class SchMoiveOutput {
-	public void print(String movie, String story, String director, String actor, String work) {
+public class AscendingOutput {
+	
+	public void print(String movie, String story, String director, String actor, String review,
+			int visitors) {
 
 		ObjectOutputStream obmout = null;
-		String print = "예매완료";
+		String print = "입력완료";
 		try {
 
 			if (new File("DB/movielist.txt").exists()) {
@@ -27,7 +29,7 @@ public class SchMoiveOutput {
 			}
 
 
-			MovieDTO paDto = new MovieDTO(movie, story, director, actor, work);
+			MovieDTO paDto = new MovieDTO(movie, story, director, actor, review, visitors);
 			obmout.writeObject(paDto);
 			System.out.println("파일 저장 성공!");
 
