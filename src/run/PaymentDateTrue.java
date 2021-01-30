@@ -6,26 +6,36 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
-import dto.PaymentDTO;
+import dto.ConditionDTO;
+import dto.MemberDTO;
+import dto.ProductDTO;
 
 public class PaymentDateTrue {
 
 	public static void main(String[] args) {
+	
+		
 		
 		ObjectInputStream objIn = null;
-		PaymentDTO[] inputMembers = new PaymentDTO[5];
-		
+		ArrayList<ProductDTO> ProductList = new ArrayList<ProductDTO>();
+		ArrayList ProductListName = new ArrayList();
+		ArrayList ProductListPrice = new ArrayList();
 	
 		try {
-			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/payment.txt")));
+			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/productDB.txt")));
 			
 			int i = 0;
 			while(true) {
-				PaymentDTO m = (PaymentDTO)objIn.readObject();
-				System.out.println(m);
-				inputMembers[i++] = m;
+				ProductDTO m = (ProductDTO)objIn.readObject();
+				System.out.println(m.getProductName());
+				ProductList.add(m);
+				ProductListName.add(m.getProductName());
+				ProductListPrice.add(m.getProductPrice());
 			}
+			
 			
 		
 		} catch (EOFException e) {
@@ -43,40 +53,19 @@ public class PaymentDateTrue {
 		}
 		
 		/* 읽어온 데이터를 담은 배열을 출력해 보자 */
+		System.out.println("==============");
+		for(int i = 0; i < ProductList.size(); i++) {
+			System.out.println(ProductList.get(i));
+		}
+		System.out.println("==============");
+		for(int i = 0; i < ProductListName.size(); i++) {
+			System.out.println(ProductListName.get(i));
+		}
+		System.out.println("==============");
+		for(int i = 0; i < ProductListPrice.size(); i++) {
+			System.out.println(ProductListPrice.get(i));
+		}
 		
-			System.out.println(inputMembers[0]);
-			System.out.println(inputMembers[1]);
-		
-		
-//		ObjectInputStream in = null;
-//
-//		try {
-//
-//		 in = new ObjectInputStream(new FileInputStream("DB/test.txt"));
-//		 	while(true) {
-//				PaymentDTO m = (PaymentDTO) in.readObject();
-//				System.out.println(m);
-//		 	}
-//		} catch (EOFException e) {
-//			System.out.println("파일 다 읽음");
-//		} catch (FileNotFoundException e) {
-//			
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			
-//			e.printStackTrace();
-//		} catch (ClassNotFoundException e) {
-//			
-//			e.printStackTrace();
-//		} finally {
-//			if(in != null) {
-//			try {
-//				in.close();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//			}
-//		}
 	}
 
 }
