@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
-public class Condition {
+public class Condition {	// 삭제 예정
 	
 	public static void main(String[] args){
 		

@@ -3,11 +3,15 @@ package administrator;
 import java.io.IOException;
 import java.util.Scanner;
 
+import dao.ProductDAO;
+
 public class AdminMain {
 
 	public static void main(String[] args) throws IOException {
 		
 		Scanner sc = new Scanner(System.in);
+		
+		ProductDAO a = new ProductDAO();
 		
 		System.out.println("=====관리자 메뉴=====");
 		System.out.println("1. 회원 목록 조회");

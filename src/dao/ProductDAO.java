@@ -20,6 +20,7 @@ public class ProductDAO {
 
 	public void prodDB() {	// product DB 초기화
 		
+		pDTO.prodNumSelect();
 		pDTO.prodNameSelect();
 		pDTO.prodPriceSelect();
 		
@@ -31,9 +32,11 @@ public class ProductDAO {
 			objOut = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("DB/productDB.txt")));
 			
 			for(int i = 0; i < pDTO.prodNameArr.size(); i++) {
+				String productNum = pDTO.prodNumArr.get(i);		// 추가
 				String productName = pDTO.prodNameArr.get(i);
 				int productPrice = pDTO.prodPriceArr.get(i);
-				ProductDTO p = new ProductDTO(productName, productPrice);
+				ProductDTO p = new ProductDTO(productNum, productName, productPrice);
+				// productNum 추가
 				list.add(p);
 			}
 			for(int i = 0 ; i < list.size() ; i++) {
@@ -85,8 +88,35 @@ public class ProductDAO {
 	
 	
 	
+	public List<ProductDTO> readDB() {	// 수정 후 DB read
+				
+		ObjectInputStream objIn = null;	
+		List<ProductDTO> list = new ArrayList<ProductDTO>();
+		
+		try {
+			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/productDB.txt")));
 
-	public void prodUpdate(ProductDTO pDTO) {
+			while(true) {
+//				System.out.println((ProductDTO)objIn.readObject());
+				list.add((ProductDTO)objIn.readObject());
+			}	
+		} catch (EOFException e) {
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return list;	
+	}	// readDB 종료
+	
+	
+	
+	
+	public void prodUpdate(ProductDTO pDTO) {	// product 상품/가격 수정
 		
 		ObjectInputStream objIn = null;
 		
@@ -97,9 +127,9 @@ public class ProductDAO {
 					
 				while(true) {
 					ProductDTO update = (ProductDTO) objIn.readObject();
-					
-					if(update.getProductName().equals(pDTO.getProductName())) {
-						list.add(pDTO);		
+//					System.out.println((ProductDTO) objIn.readObject());
+					if(update.getProductNum().equals(pDTO.getProductNum())) {
+						list.add(pDTO);
 					}else {
 						list.add(update);
 					}
@@ -144,11 +174,10 @@ public class ProductDAO {
 			}
 		}
 		
-		for(ProductDTO a : list) {
-			System.out.println(a);
-		}
+		readDB();
 		System.out.println("수정 완료 되었습니다.");
 		
 	}	// prodUpdate 종료
+
 
 }	// class 종료
