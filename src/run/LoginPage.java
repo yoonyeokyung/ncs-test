@@ -61,24 +61,24 @@ public class LoginPage extends JPanel{
         btnJoin.setBounds(660, 220, 90, 25);
         loginPage.add(btnJoin);
         
-//        btnLogin = new JButton("Login");
-//        btnLogin.setBounds(630, 180, 300, 25);
-//        loginPage.add(btnLogin);
+        btnLogin = new JButton("Login");
+        btnLogin.setBounds(630, 180, 300, 25);
+        loginPage.add(btnLogin);
         
         
         
         
         
         
-//		// Header
-//		JLabel headerTop = new JLabel();
-//		headerTop.setOpaque(true); 
-//		headerTop.setBackground(new Color(95, 0, 128));
-//		headerTop.setPreferredSize(new Dimension(1200, 10));
-//		JLabel header = new JLabel();
-//		header.setOpaque(true); 
-//		header.setBackground(Color.BLUE);
-//		header.setPreferredSize(new Dimension(1200, 140));
+		// Header
+		JLabel headerTop = new JLabel();
+		headerTop.setOpaque(true); 
+		headerTop.setBackground(new Color(95, 0, 128));
+		headerTop.setPreferredSize(new Dimension(1200, 10));
+		JLabel header = new JLabel();
+		header.setOpaque(true); 
+		header.setBackground(Color.BLUE);
+		header.setPreferredSize(new Dimension(1200, 140));
 		
 		mf.add(loginPage,"Center");
 

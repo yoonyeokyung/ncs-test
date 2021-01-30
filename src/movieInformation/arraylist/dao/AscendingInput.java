@@ -12,7 +12,7 @@ import java.util.List;
 import dto.MemberDTO;
 import movieInformation.arraylist.dto.MovieDTO;
 
-public class AscendingInpit {
+public class AscendingInput {
 
    public static void main(String[] args) {
       
@@ -50,9 +50,8 @@ public class AscendingInpit {
       int i = 0;
 		for(MovieDTO b : movieList) {
 			i += 1;
-			System.out.println(i + "위 : "+ b.getMovie() + ", 조회수 : " + b.getVisitors());
+			System.out.println(i + "위 : "+ b.getMovie() + ", 누적 관람 수 : " + b.getVisitors());
 		}
 
-   }
-
-}
+	}		// method 종료.
+}			// Class 종료.

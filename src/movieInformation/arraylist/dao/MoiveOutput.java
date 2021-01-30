@@ -16,15 +16,14 @@ public class MoiveOutput {
 			int visitors) {
 
 		ObjectOutputStream obmout = null;
-		String print = "예매완료";
 		try {
 
 			if (new File("DB/movielist.txt").exists()) {
-				System.out.println("있을 때");
+				System.out.println("DB텍스트가 있습니다.");
 				/* 기존에 파일이 있을 경우 */
 				obmout = new MyOutputStream(new BufferedOutputStream(new FileOutputStream("DB/movielist.txt", true)));
 			} else {
-				System.out.println("없을 때");
+				System.out.println("DB텍스트가 없네요.");
 				/* 기존에 파일이 없을 경우 */
 				obmout = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("DB/movielist.txt")));
 			}
@@ -50,5 +49,5 @@ public class MoiveOutput {
 				}
 			}
 		}
-	}	
-}
+	}		// method 종료.
+}			// Class 종료.

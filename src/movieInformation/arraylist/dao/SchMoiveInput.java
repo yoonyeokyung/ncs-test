@@ -46,6 +46,6 @@ public class SchMoiveInput {
 		}
 		
 
-	}
+	}		// method 종료.
 
-}
+}			// Class 종료.

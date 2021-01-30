@@ -15,4 +15,4 @@ public class MyOutputStream extends ObjectOutputStream{
      
     }
 	
-}
+}			// Class 종료.

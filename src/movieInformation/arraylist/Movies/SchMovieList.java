@@ -10,10 +10,14 @@ import movieInformation.arraylist.dto.MovieDTO;
 public class SchMovieList {
 	
 	public static void main(String[] args) {
-		/*개봉예정작*/
-		SchMoiveOutput prin = new SchMoiveOutput();
 		
-		/*영화제목, 줄거리, 감독, 배우 순서이다.*/
+		SchMoiveOutput prin = new SchMoiveOutput();
+
+		/* 개봉 예정작품 */
+		/* 예정영화의 전체적인 정보를 관리하는 클래스이다. */
+		
+		/* 영화제목, 줄거리, 감독, 배우 순서이다. */
+		/* 첫번째 영화 */
 		prin.print("이 안에 외계인이 있다",
 					
 				    "\n 2021년 지구, 노란색 액체의 흔적과 함께 인류들이 사라진다.\n"
@@ -29,7 +33,7 @@ public class SchMovieList {
 					+ "배우 : 이현웅 주연 | 민두환 역 \n"
 					+ " 배우 : 태항호 주연 | 태하명역 \n");
 		
-		
+		/* 두번째 영화 */
 		prin.print("톰과 제리", 
 				   
 				   "\n전 세계가 사랑한 라이벌 콤비 뉴욕을 발칵 뒤집는다! \n"
@@ -44,6 +48,7 @@ public class SchMovieList {
 				   + "배우 : 켄 정 Ken Jeong 주연| 재키 역 \n "
 				   + "배우 : 카밀라 아프웨드슨 Camilla Arfwedson 조연| 린다 페리보텀 역 \n");
 		
+		/* 세번째 영화 */
 		prin.print("호라이즌 라인", 
 				
 				   "\n 계기판도 GPS도 조종사도 없다!내 안의 생존 본능을 깨워라! \n "
@@ -59,6 +64,7 @@ public class SchMovieList {
 				   + "배우 : 주메인 헌터 Jumayn Hunter 조연 | 사무엘 역 \n");
 
 		
-		}
-	}
+		
+	}		// method 종료.
 
+}			// Class 종료.

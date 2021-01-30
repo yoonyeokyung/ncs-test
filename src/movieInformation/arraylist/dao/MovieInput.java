@@ -49,6 +49,6 @@ public class MovieInput {
 		}
 		
 
-	}
+	}		// method 종료.
 
-}
+}			// Class 종료.
