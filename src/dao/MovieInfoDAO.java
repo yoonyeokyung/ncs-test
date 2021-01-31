@@ -131,17 +131,4 @@ public class MovieInfoDAO {
 		return nowSelectMovie;
 	}
 
-
-	
-//	public MovieInfoDTO login(String id, String pw) {
-//		
-//		MovieInfoDTO NowArray = null;
-//
-//		for(MovieInfoDTO m : NowMovieInfo()) {
-//			NowArray = m;
-//		}
-//
-//		return NowArray;
-//	}
-
 }
