@@ -178,6 +178,70 @@ public class ProductDAO {
 		System.out.println("수정 완료 되었습니다.");
 		
 	}	// prodUpdate 종료
+	
+	
+	public void prodRemove(ProductDTO pDTO) {	// 상품 삭제 
+
+		ObjectInputStream objIn = null;
+
+		List<ProductDTO> list = new ArrayList<ProductDTO>();
+
+		try {
+			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/productDB.txt")));
+
+			while(true) {
+				ProductDTO update = (ProductDTO) objIn.readObject();
+				if(update.getProductNum().equals(pDTO.getProductNum())) {
+					continue;
+				} else {
+					list.add(update);
+				}
+			}
+
+		} catch (EOFException e) {
+
+		} catch (IOException e) {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+			if(objIn != null)
+				try {
+					objIn.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		}
+
+
+		ObjectOutputStream objOut=null;
+
+		try {
+			objOut = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("DB/productDB.txt", false)));
+
+			for(ProductDTO object : list) {
+				objOut.writeObject(object);
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if(objOut != null) {
+				try {
+					objOut.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		readDB();
+		System.out.println("삭제 완료 되었습니다.");
+
+	}	//prodRemove 종료
 
 
 }	// class 종료

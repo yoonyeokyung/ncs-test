@@ -24,6 +24,7 @@ public class ConditionDAO {
 		cDTO.areaSelect();
 		cDTO.dateSelect();
 		cDTO.timeSelect();
+		cDTO.seatSelect();
 
 		ObjectOutputStream objOut = null;
 
@@ -36,26 +37,31 @@ public class ConditionDAO {
 				for(int k = 0 ; k < cDTO.movieArr.size() ; k++) {
 					for(int d = 0 ; d < cDTO.movieArr.size() ; d++) {
 						for(int t = 0 ; t < cDTO.movieArr.size() ; t++) {
-							String movieTitle = cDTO.movieArr.get(i);
-							String area = cDTO.areaArr.get(k);
-							String date = cDTO.dateArr.get(d);
-							String showTime = cDTO.timeArr.get(t);
-							ConditionDTO c = new ConditionDTO(movieTitle, area, date, showTime);
-							list.add(c);
+							for(int s = 0 ; s < cDTO.movieArr.size() ; s++) {
+								String movieTitle = cDTO.movieArr.get(i);
+								String area = cDTO.areaArr.get(k);
+								String date = cDTO.dateArr.get(d);
+								String showTime = cDTO.timeArr.get(t);
+								String seat = cDTO.seatArr.get(s);
+								ConditionDTO c = new ConditionDTO(movieTitle, area, date, showTime, seat);
+								list.add(c);
 
+							}
 						}
 					}
 				}
-			}
+			}		
 
 			for(int i = 0 ; i < list.size() ; i++) {
 				objOut.writeObject(list.get(i));
 			}
-
+		
+		} catch (EOFException e) {	
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 
 		} finally {
@@ -97,8 +103,8 @@ public class ConditionDAO {
 //				}
 //			}
 //		}
-
-
+//
+//
 
 	}	// main 종료
 

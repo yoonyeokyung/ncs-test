@@ -1,4 +1,4 @@
-package movieInformation.arraylist.schMovie;
+package movieInformation.arraylist.dao;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -15,4 +15,4 @@ public class MyOutputStream extends ObjectOutputStream{
      
     }
 	
-}
+}			// Class 종료.

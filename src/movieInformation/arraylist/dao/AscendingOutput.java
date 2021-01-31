@@ -1,4 +1,4 @@
-package movieInformation.arraylist.schMovie;
+package movieInformation.arraylist.dao;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -9,25 +9,26 @@ import java.io.ObjectOutputStream;
 
 import movieInformation.arraylist.dto.MovieDTO;
 
-public class SchMoiveOutput {
-	public void print(String movie, String story, String director, String actor, String work) {
+public class AscendingOutput {
+	
+	public void print(String movie, String story, String director, String actor, String review,
+			int visitors) {
 
 		ObjectOutputStream obmout = null;
-		String print = "예매완료";
 		try {
 
 			if (new File("DB/movielist.txt").exists()) {
-				System.out.println("있을 때");
+				System.out.println("DB텍스트가 있습니다.");
 				/* 기존에 파일이 있을 경우 */
 				obmout = new MyOutputStream(new BufferedOutputStream(new FileOutputStream("DB/movielist.txt", true)));
 			} else {
-				System.out.println("없을 때");
+				System.out.println("DB텍스트가 없네요.");
 				/* 기존에 파일이 없을 경우 */
 				obmout = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("DB/movielist.txt")));
 			}
 
 
-			MovieDTO paDto = new MovieDTO(movie, story, director, actor, work);
+			MovieDTO paDto = new MovieDTO(movie, story, director, actor, review, visitors);
 			obmout.writeObject(paDto);
 			System.out.println("파일 저장 성공!");
 
@@ -47,5 +48,5 @@ public class SchMoiveOutput {
 				}
 			}
 		}
-	}	
-}
+	}		// method 종료.
+}			// Class 종료.
