@@ -10,8 +10,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import member.MemberManager;
+
 class SerchPW extends JFrame {
-    // 버튼이 눌러지면 만들어지는 새 창을 정의한 클래스
+
+	private MemberManager memberManager = new MemberManager();
+	
 	SerchPW() {
         setTitle("PW 찾기");
 
@@ -53,7 +57,12 @@ class SerchPW extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 //               JLabel 안에 변수명 입력해야함
-            	value.setText("사용자의 비밀번호값");
+				String checkPw = memberManager.searchPw(nmText.getText(), idText.getText());
+				if(checkPw != null) {
+					value.setText("회원님의 pw는 \"" + checkPw + "\"입니다.");
+				} else {
+					value.setText("일치하는 회원이 존재하지 않습니다.");
+				}
             }
             
         });

@@ -10,8 +10,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import member.MemberManager;
+
 class SerchID extends JFrame {
-    // 버튼이 눌러지면 만들어지는 새 창을 정의한 클래스
+
+	private MemberManager memberManager = new MemberManager();
+	
 	SerchID() {
         setTitle("ID 찾기");
 
@@ -28,9 +32,9 @@ class SerchID extends JFrame {
         nmLabel.setBounds(10, 50, 80, 25);
         searchP.add(nmLabel);
         
-        JTextField idText = new JTextField(20);
-        idText.setBounds(110, 50, 100, 25);
-        searchP.add(idText);
+        JTextField nmText = new JTextField(20);
+        nmText.setBounds(110, 50, 100, 25);
+        searchP.add(nmText);
         
         JButton btnSearch = new JButton("ID 찾기");
         btnSearch.setBounds(10, 90, 200, 25);
@@ -45,7 +49,13 @@ class SerchID extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 //               JLabel 안에 변수명 입력해야함
-            	value.setText("사용자의 아이디값");
+//            	value.setText("사용자의 아이디값");
+            	String checkId = memberManager.searchId(nmText.getText());
+				if(checkId != null) {
+					value.setText("회원님의 id는 \"" + checkId + "\"입니다.");
+				} else {
+					value.setText("일치하는 회원이 존재하지 않습니다.");
+				}
             }
             
         });
