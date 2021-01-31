@@ -1,6 +1,7 @@
 package run;
 
 import javax.swing.JFrame;
+import run.member.LoginPage;
 
 public class MainFrame extends JFrame{
 	

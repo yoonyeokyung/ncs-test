@@ -207,7 +207,7 @@ public class MemberDAO {
 		ArrayList<String> show = new ArrayList<>();
 		
 		for(PaymentDTO p : Payment()) {
-			if(id.equals(p.getInckName())) {
+			if(id.equals(p.getNickName())) {
 				show.add(p.getMovie());
 			}
 		}
@@ -222,7 +222,7 @@ public class MemberDAO {
 		ArrayList<PaymentDTO> show = new ArrayList<>();
 		
 		for(PaymentDTO p : Payment()) {
-			if(id.equals(p.getInckName())) {
+			if(id.equals(p.getNickName())) {
 				show.add(p);
 			}
 		}
