@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import member.MemberManager;
+import java.awt.Color;
 
 class SerchPW extends JFrame {
 
@@ -21,36 +22,43 @@ class SerchPW extends JFrame {
 
         
         JPanel searchP = new JPanel();
+        searchP.setBackground(new Color(153, 50, 204));
         searchP.setLayout(null);
         setContentPane(searchP);
         
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.WHITE);
+        panel.setBounds(12, 42, 224, 210);
+        searchP.add(panel);
+        panel.setLayout(null);
+        
         JLabel searchL = new JLabel("회원님의 이름과 ID를 입력해주세요.");
-        searchL.setBounds(10, 10, 200, 25);
-        searchP.add(searchL);
+        searchL.setBounds(12, 10, 200, 25);
+        panel.add(searchL);
         
         JLabel nmLabel = new JLabel("NAME : ");
-        nmLabel.setBounds(10, 50, 80, 25);
-        searchP.add(nmLabel);
-        
-        JTextField nmText = new JTextField(20);
-        nmText.setBounds(110, 50, 100, 25);
-        searchP.add(nmText);
+        nmLabel.setBounds(12, 50, 80, 25);
+        panel.add(nmLabel);
         
         JLabel idLabel = new JLabel("ID : ");
-        idLabel.setBounds(10, 90, 80, 25);
-        searchP.add(idLabel);
+        idLabel.setBounds(12, 90, 80, 25);
+        panel.add(idLabel);
+        
+        JTextField nmText = new JTextField(20);
+        nmText.setBounds(112, 50, 100, 25);
+        panel.add(nmText);
         
         JTextField idText = new JTextField(20);
-        idText.setBounds(110, 90, 100, 25);
-        searchP.add(idText);
+        idText.setBounds(112, 90, 100, 25);
+        panel.add(idText);
         
         JButton btnSearch = new JButton("PW 찾기");
-        btnSearch.setBounds(10, 130, 200, 25);
-        searchP.add(btnSearch);
+        btnSearch.setBounds(12, 130, 200, 25);
+        panel.add(btnSearch);
         
         JLabel value = new JLabel();
-        value.setBounds(10, 170, 200, 25);
-        searchP.add(value);
+        value.setBounds(12, 170, 200, 25);
+        panel.add(value);
         
         btnSearch.addActionListener(new ActionListener() {
 
@@ -67,7 +75,7 @@ class SerchPW extends JFrame {
             
         });
         
-        setBounds(200, 200, 240, 260);
+        setBounds(200, 200, 264, 322);
         setResizable(false);
         setVisible(true);
 	}

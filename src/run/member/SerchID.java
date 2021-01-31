@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import member.MemberManager;
+import java.awt.Color;
 
 class SerchID extends JFrame {
 
@@ -21,28 +22,35 @@ class SerchID extends JFrame {
 
         
         JPanel searchP = new JPanel();
+        searchP.setBackground(new Color(153, 50, 204));
         searchP.setLayout(null);
         setContentPane(searchP);
         
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.WHITE);
+        panel.setBounds(12, 35, 210, 161);
+        searchP.add(panel);
+        panel.setLayout(null);
+        
         JLabel searchL = new JLabel("회원님의 이름을 입력해주세요.");
-        searchL.setBounds(10, 10, 200, 25);
-        searchP.add(searchL);
+        searchL.setBounds(18, 10, 174, 25);
+        panel.add(searchL);
         
         JLabel nmLabel = new JLabel("NAME : ");
-        nmLabel.setBounds(10, 50, 80, 25);
-        searchP.add(nmLabel);
+        nmLabel.setBounds(6, 49, 80, 25);
+        panel.add(nmLabel);
         
         JTextField nmText = new JTextField(20);
-        nmText.setBounds(110, 50, 100, 25);
-        searchP.add(nmText);
+        nmText.setBounds(106, 49, 100, 25);
+        panel.add(nmText);
         
         JButton btnSearch = new JButton("ID 찾기");
-        btnSearch.setBounds(10, 90, 200, 25);
-        searchP.add(btnSearch);
+        btnSearch.setBounds(6, 89, 200, 25);
+        panel.add(btnSearch);
         
         JLabel value = new JLabel();
-        value.setBounds(10, 130, 200, 25);
-        searchP.add(value);
+        value.setBounds(6, 126, 200, 25);
+        panel.add(value);
         
         btnSearch.addActionListener(new ActionListener() {
 
@@ -60,7 +68,7 @@ class SerchID extends JFrame {
             
         });
         
-        setBounds(200, 200, 240, 210);
+        setBounds(200, 200, 250, 259);
         setResizable(false);
         setVisible(true);
 	}
