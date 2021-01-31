@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
 
+import dto.ConditionDTO;
 import dto.PaymentDTO;
 import dto.ProductDTO;
 import ticketingAndPayment.MyOutputStream;
@@ -26,198 +27,284 @@ public class PaymentDAO {
 	/* 상품 부분 받아오기 */
 	String productchoice = "";
 	int priceProduct = 0;
-	ArrayList<ProductDTO> ProductList = new ArrayList<ProductDTO>();		// 정보 다받아오기
-	ArrayList ProductListName = new ArrayList();							// 이름만 받아오기
-	ArrayList ProductListPrice = new ArrayList();							// 가격만 받아오기
-	
+	ArrayList<ProductDTO> ProductList = new ArrayList<ProductDTO>(); // 정보 다받아오기
+	ArrayList ProductListName = new ArrayList(); // 이름만 받아오기
+	ArrayList ProductListPrice = new ArrayList(); // 가격만 받아오기
+	ArrayList<ConditionDTO> MovieList = new ArrayList<ConditionDTO>(); // 영화 정보 다 받아오
+
+	ArrayList movieTitle = new ArrayList(); // 영화이름
+	ArrayList area = new ArrayList(); // 영화 장수
+	ArrayList date = new ArrayList(); // 날짜
+	ArrayList showTime = new ArrayList(); // 시간
+	ArrayList seat = new ArrayList(); // 좌석
+
 	/* 상품목록 */
 	public ArrayList ProductListName() {
-		
+
 		ObjectInputStream objIn = null;
-			
+
 		try {
 			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/productDB.txt")));
-			
+
 			int i = 0;
-			while(true) {
-				ProductDTO m = (ProductDTO)objIn.readObject();
-				System.out.println(m.getProductName());
+			while (true) {
+				ProductDTO m = (ProductDTO) objIn.readObject();
 				ProductList.add(m);
 				ProductListName.add(m.getProductName());
 				ProductListPrice.add(m.getProductPrice());
 			}
-			
-			
-		
+
 		} catch (EOFException e) {
-		
+
 			System.out.println("파일 읽기 완료!");
 		} catch (FileNotFoundException e) {
-			
+
 			e.printStackTrace();
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			
+
 			e.printStackTrace();
 		}
-		
+
 		return ProductListName;
 	}
-	
 
-	
-	
+	/* 영화 관력 데이터 가져오기 */
+	public ArrayList MovieList() { // 영화 이름 리턴
+		ObjectInputStream objIn = null;
 
-	/* movie */
-	public String movieTitle(int choiceMovie) {
+		try {
+			objIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("DB/conditionDB.txt")));
 
-		String[] movielist = { "신세계", "해리포터" };
-		return movielist[choiceMovie - 1];
+			int i = 0;
+			while (true) {
+				ConditionDTO m = (ConditionDTO) objIn.readObject();
+
+				MovieList.add(m);
+				movieTitle.add(m.getMovieTitle());
+				area.add(m.getArea());
+				date.add(m.getDate());
+				showTime.add(m.getShowTime());
+				seat.add(m.getSeat());
+			}
+
+		} catch (EOFException e) {
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if (objIn != null) {
+				try {
+					objIn.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		int count = 0;
+		ArrayList movieTitle2 = new ArrayList();
+		movieTitle2.add(movieTitle.get(0));
+		for (int i = 0; i < movieTitle.size(); i++) {
+			if (!(movieTitle2.get(count).equals(movieTitle.get(i)))) {
+				movieTitle2.add(movieTitle.get(i));
+				count += 1;
+			}
+		}
+		return movieTitle2;
+	}
+
+	public ArrayList MovieListArea(String getmovieTitle) {
+		ArrayList areaList = new ArrayList();
+		int countArea = 0;
+		for (int i = 0; i < movieTitle.size(); i++) {
+			if (movieTitle.get(i).equals(getmovieTitle)) {
+				areaList.add(area.get(i));
+				break;
+			}
+		}
+		for (int i = 0; i < movieTitle.size(); i++) {
+			if (movieTitle.get(i).equals(getmovieTitle)) {
+				if (!(areaList.get(countArea).equals(area.get(i)))) {
+					countArea += 1;
+					areaList.add(area.get(i));
+				}
+			}
+		}
+		return areaList;
 	}
 
 	public int moviePrice(int choiceMovie) {
 		int price;
-
-		if (choiceMovie == 1) {
-			price = 7000; // 신세계 가격
-		} else {
-			price = 5000; // 해리포터 가격
-		}
-
+		price = 7000;
 		return price;
 	}
 
-	
-
+//	date
 	/* time */
-	public String movieDate(int choicetimne) {
-
-		String[] moviedate = { "25일/월", "26일/화", "27일/수", "28일/목", "29일/금", "30일/토", "31일/일" };
-		return moviedate[choicetimne];
+	public ArrayList movieDate(String getmovieTitle, String movidArea) {
+		ArrayList dateList = new ArrayList();
+		int count = 0;
+		for (int i = 0; i < movieTitle.size(); i++) {
+			if (movieTitle.get(i).equals(getmovieTitle)) {
+				if (area.get(i).equals(movidArea)) {
+					dateList.add(date.get(i));
+					break;
+				}
+			}
+		}
+		for (int i = 0; i < movieTitle.size(); i++) {
+			if (movieTitle.get(i).equals(getmovieTitle)) {
+				if (area.get(i).equals(movidArea)) {
+					if (!(date.get(i).equals(dateList.get(count)))) {
+						dateList.add(date.get(i));
+						count += 1;
+					}
+				}
+			}
+		}
+		return dateList;
 	}
 
-	public int movieTime(int choicetimne) {
-
-		int[] moviedate = { 12, 13, 14, 15, 16, 17, 18 };
-		return moviedate[choicetimne];
+	public ArrayList movieTime(String movie, String movidArea, String movieDate) {
+		ArrayList timeList = new ArrayList();
+		int count = 0;
+		for (int i = 0; i < movieTitle.size(); i++) {
+			if (movieTitle.get(i).equals(movie)) {
+				if (area.get(i).equals(movidArea)) {
+					if (date.get(i).equals(movieDate)) {
+						timeList.add(showTime.get(i));
+						break;
+					}
+				}
+			}
+		}
+		for (int i = 0; i < movieTitle.size(); i++) {
+			if (movieTitle.get(i).equals(movie)) {
+				if (area.get(i).equals(movidArea)) {
+					if (date.get(i).equals(movieDate)) {
+						if (!(showTime.get(i).equals(timeList.get(count)))) {
+							timeList.add(showTime.get(i));
+							count += 1;
+						}
+					}
+				}
+			}
+		}
+		return timeList;
 	}
-	
+
 	/* seat */
-	public int movieSeat(int choiceNumber, int price) {
+	public ArrayList movieSeat(String movie, String movidArea, String movieDate, String movieTime) {
+		ArrayList seatList = new ArrayList();
+		int count = 0;
+		for (int i = 0; i < movieTitle.size(); i++) {
+			if (movieTitle.get(i).equals(movie)) {
+				if (area.get(i).equals(movidArea)) {
+					if (date.get(i).equals(movieDate)) {
+						if (showTime.get(i).equals(movieTime)) {
+							seatList.add(seat.get(i));
+							break;
+						}
+					}
+				}
+			}
+		}
+		for (int i = 0; i < movieTitle.size(); i++) {
+			if (movieTitle.get(i).equals(movie)) {
+				if (area.get(i).equals(movidArea)) {
+					if (date.get(i).equals(movieDate)) {
+						if (showTime.get(i).equals(movieTime)) {
+							if (!(showTime.get(i).equals(seatList.get(count)))) {
+								seatList.add(seat.get(i));
+								count += 1;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return seatList;
+	}
+
+	public int movieSeatPrice(int choiceNumber, int price) {
 
 		int moviePrice = 0;
-			
+
 		moviePrice += choiceNumber * price;
 		return moviePrice;
 	}
-	
+
 	/* product */
-	public String productTitle(String choiceProduct ,int choiceProductPrice, int choiceConut) {
+	public String productTitle(String choiceProduct, int choiceProductPrice, int choiceConut) {
 		int ProductPrice = (int) ProductListPrice.get(choiceProductPrice - 1);
 		int price = ProductPrice * choiceConut;
 		productchoice += choiceProduct + " ";
 //		ProductListPrice(choiceProductPrice - 1)
-				
+
 		priceProduct += price;
 		return productchoice;
 	}
 
-	
-
-
-
-
-
 	public int productPrice() {
 		return priceProduct;
 	}
-	
+
 	/* card */
 	public Double cardDiscount(int choiceCard) {
 		Double[] cardListDiscount = { 3.0, 5.0, 1.0, 2.0 };
-		
+
 		return cardListDiscount[choiceCard - 1];
 	}
-	
-	
-	/* 현재 시간 + 이름*/
+
+	/* 현재 시간 + 이름 */
 	public String toDay() {
-		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
-		
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 		Calendar time = Calendar.getInstance();
-		       
-		String formatTime = format1.format(time.getTime())+"송준원";
+
+		String formatTime = format1.format(time.getTime()) + "송준원";
 		return formatTime;
 	}
 
-
 	/* 영화정보 입출력 */
-	public String print(String nickName, String movie, String time, String seat, String viewer, int ticketPrice,
-			String product, String productPrice, String cardName, String cardDiscount, int pay, String toDay) {
+	public String print(String nickName, String movie, String area, String time, String seat, String viewer,
+			int ticketPrice, String product, String productPrice, String cardName, String cardDiscount, int pay,
+			String toDay) {
 
 		ObjectOutputStream objOut = null;
 		String print = "예매완료";
 		try {
 
 			if (new File("DB/test.txt").exists()) {
-				System.out.println("있을 때");
 				/* 기존에 파일이 있을 경우 */
 				objOut = new MyOutputStream(new BufferedOutputStream(new FileOutputStream("DB/payment.txt", true)));
 			} else {
-				System.out.println("없을 때");
 				/* 기존에 파일이 없을 경우 */
 				objOut = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("DB/payment.txt")));
 			}
-
-			PaymentDTO paDto = new PaymentDTO(nickName, movie, time, seat, viewer, ticketPrice, product, productPrice, cardName, cardDiscount, pay, toDay);
+			PaymentDTO paDto = new PaymentDTO(nickName, movie, area, time, seat, viewer, ticketPrice, product,
+					productPrice, cardName, cardDiscount, pay, toDay);
 			objOut.writeObject(paDto);
-			System.out.println("파일 저장 성공!");
-
 		} catch (FileNotFoundException e) {
-
 			e.printStackTrace();
 		} catch (IOException e) {
-
 			e.printStackTrace();
 		} finally {
 			if (objOut != null) {
 				try {
 					objOut.close();
 				} catch (IOException e) {
-
 					e.printStackTrace();
 				}
 			}
 		}
-//		try {
-//			out = new FileOutputStream("test.txt");
-//			oout = new ObjectOutputStream(out);			
-//
-//			
-//		
-//			PaymentDTO paDto = new PaymentDTO(inckName, movie, time + "시", cardName, pay);
-//
-//			oout.writeObject(paDto); //저장
-//			
-//			System.out.println("파일 저장 성공!");
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				oout.close();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-
 		return print;
 	}
-
-	
-	
-
-	
 
 }

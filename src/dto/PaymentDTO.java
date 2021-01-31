@@ -10,6 +10,7 @@ public class PaymentDTO implements Serializable{
 	private static final long serialVersionUID = 1786173601363444283L;
 	private String nickName;		// 사용자 이름
 	private String movie;			// 영화
+	private String area;			// 장소
 	private String time;			// 영화시간
 	private String seat;			// 영화 좌석
 	private String viewer;			// 사람 명수
@@ -26,11 +27,12 @@ public class PaymentDTO implements Serializable{
 	
 	
 
-	public PaymentDTO(String nickName, String movie, String time, String seat, String viewer, int ticketPrice,
+	public PaymentDTO(String nickName, String movie, String area,String time, String seat, String viewer, int ticketPrice,
 			String product, String productPrice, String cardName, String cardDiscount, int pay, String toDay) {
 		super();
 		this.nickName = nickName;
 		this.movie = movie;
+		this.area = area;
 		this.time = time;
 		this.seat = seat;
 		this.viewer = viewer;
@@ -41,6 +43,18 @@ public class PaymentDTO implements Serializable{
 		this.cardDiscount = cardDiscount;
 		this.pay = pay;
 		this.toDay = toDay;
+	}
+
+
+
+	public String getArea() {
+		return area;
+	}
+
+
+
+	public void setArea(String area) {
+		this.area = area;
 	}
 
 
@@ -161,12 +175,17 @@ public class PaymentDTO implements Serializable{
 		return serialVersionUID;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "PaymentDTO [nickName=" + nickName + ", movie=" + movie + ", time=" + time + ", seat=" + seat
-				+ ", viewer=" + viewer + ", product=" + product + ", productPrice=" + productPrice + ", cardName="
-				+ cardName + ", cardDiscount=" + cardDiscount + ", pay=" + pay + ", toDay=" + toDay + "]";
+		return "PaymentDTO [nickName=" + nickName + ", movie=" + movie + ", area=" + area + ", time=" + time + ", seat="
+				+ seat + ", viewer=" + viewer + ", ticketPrice=" + ticketPrice + ", product=" + product
+				+ ", productPrice=" + productPrice + ", cardName=" + cardName + ", cardDiscount=" + cardDiscount
+				+ ", pay=" + pay + ", toDay=" + toDay + "]";
 	}
+
+
 
 
 	

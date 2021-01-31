@@ -20,16 +20,22 @@ public class Payment {
 		ObjectOutputStream oout = null;
 
 		/* 배열 */
-		ArrayList productList = new ArrayList();		// 상품 이름만 받아오기
+		ArrayList productList = new ArrayList();			// 상품 이름만 받아오기
 		ArrayList ProductListPrice = new ArrayList();		// 상품 가격만 받아오기
+		ArrayList MovieList = new ArrayList();
+		ArrayList areaList = new ArrayList();
+		ArrayList dateList = new ArrayList();
+		ArrayList timeList = new ArrayList();
+		ArrayList seatList = new ArrayList();
 		
 		PaymentDAO dao = new PaymentDAO();
 		String nickName = "송준원";
 		int number; // 페이지 넘기는 숫자
 		String movie = null; // 영화 이름 변수
 		int movidPrice = 0; // 영화 가격 변수
+		String movidArea = null; // 영화 장소 변수
 		String date = null; // 영화 날짜 변수
-		int time = 0; // 영화 시간 변수
+		String time = null; // 영화 시간 변수
 		String seat2[] = null; // 영화 좌석 변수
 		String seat = ""; // 영화 좌석2 변수 DTO에 담아줄 변수
 		int ticketPrice = 0; // 티켓 겟수를 알아내는 변수
@@ -55,23 +61,25 @@ public class Payment {
 				switch (number) {
 
 				case 1: /* 영화선택 */
+					MovieList = dao.MovieList();
 					int choiceMovie = 0;
 					System.out.println();
 					while (true) {
-						System.out.println("1. 신세계 ");
-						System.out.println("2. 해리포터");
+						for(int i = 0; i < MovieList.size(); i++) {
+							System.out.println((i+1)+". "+ MovieList.get(i));
+						}
 						System.out.print("영화를 선택해 주세요 : ");
 						choiceMovie = sc.nextInt();
 						sc.nextLine();
-						if (choiceMovie == 1 || choiceMovie == 2) {
+						if (MovieList.size() >= choiceMovie && choiceMovie > 0) {
 							break;
 						}
 						System.out.println("잘못 선택하셨습니다 다시 선택해 주세요");
 					}
 
-					movie = dao.movieTitle(choiceMovie);
-					movidPrice = dao.moviePrice(choiceMovie);
-
+					movie = (String) MovieList.get(choiceMovie-1);
+					movidPrice = dao.moviePrice(choiceMovie-1);
+					
 					/* 현재 선택 현황 */
 					System.out.println(movie + " " + movidPrice + "원");
 					System.out.println();
@@ -79,50 +87,73 @@ public class Payment {
 					number = 2;
 					break;
 
-				case 2: /* 영화시간 선택 */
+				case 2: /* 영화 장소 + 시간 선택 */
+					int choiceArea = 0;
 					int choicetimne = 0;
 					int moviedate = 0;
 					System.out.println();
-
-					String[] moviedate1 = { "25일/월", "26일/화", "27일/수", "28일/목", "29일/금", "30일/토", "31일/일" };
+					
+					/* 영화관 선택 */
+				
+					areaList = dao.MovieListArea(movie);
 					while (true) {
-						for (int i = 0; i < moviedate1.length; i++) {
-							System.out.println((i + 1) + ". " + moviedate1[i]);
+						for(int i = 0; i < areaList.size(); i++) {
+							System.out.println((i+1)+". "+ areaList.get(i));
 						}
-						System.out.print("요일을 선택해 주세요 : ");
-						choicetimne = sc.nextInt();
+						System.out.print("지역을 선택해 주세요 : ");
+						choiceArea = sc.nextInt();
 						sc.nextLine();
-						if (choicetimne >= 1 && choicetimne <= moviedate1.length) {
+						if (choiceArea > 0 && choiceArea <= areaList.size()) {
 							break;
 						}
 						System.out.println("잘못 선택하셨습니다 다시 선택해 주세요");
 					}
-					date = dao.movieDate(choicetimne);
-					int[] moviedate11 = { 12, 13, 14, 15, 16, 17, 18 };
-					while (true) {
-						for (int i = 0; i < moviedate11.length; i++) {
-							System.out.println((i + 1) + ". " + moviedate11[i]);
-						}
+					movidArea = (String) areaList.get(choiceArea-1);
 
+					/* 날짜 */
+					dateList = dao.movieDate(movie, movidArea);
+					while (true) {
+						for(int i = 0; i < dateList.size(); i++) {
+							System.out.println((i+1)+". "+ dateList.get(i));
+						}
+						System.out.print("날짜를 선택해 주세요 : ");
+						choicetimne = sc.nextInt();
+						sc.nextLine();
+						if (choicetimne >= 1 && choicetimne <= dateList.size()) {
+							break;
+						}
+						System.out.println("잘못 선택하셨습니다 다시 선택해 주세요");
+					}
+					
+					date = (String) dateList.get(choicetimne-1);
+					
+					/* 시간선택 */
+					timeList = dao.movieTime(movie, movidArea,date);
+					while (true) {
+						for(int i = 0; i < dateList.size(); i++) {
+							System.out.println((i+1)+". "+ timeList.get(i));
+						}
 						System.out.print("시간을 선택해 주세요 : ");
 						choicetimne = sc.nextInt();
 						sc.nextLine();
-						if (choicetimne >= 1 && choicetimne <= moviedate11.length) {
+						if (choicetimne >= 1 && choicetimne <= timeList.size()) {
 							break;
 						}
 						System.out.println("잘못 선택하셨습니다 다시 선택해 주세요");
 					}
-					time = dao.movieTime(choicetimne);
+					time = (String) timeList.get(choicetimne-1);
 
 					/* 현재 선택 현황 */
 					System.out.println(movie + " " + movidPrice + "원");
+					System.out.println("장소 : " + movidArea);
 					System.out.println(date + " " + time + "시");
 
 					number = 3;
 					break;
 
 				case 3: /* 좌석 선택 */
-					String[] movieSeat = { "a1", "a2", "a3", "a4", "a5" }; 	// 영화관 이미지 부분 선택 되면 예매 바뀌는 기능
+					seatList = dao.movieSeat(movie, movidArea,date, time);
+
 					int choice2 = 0; 										// 사용자가 선택한 번호를 담기 위한 변수
 					int choiceNumber = 0; 									// 사용자가 선택한 번호를 담기 위한 변수
 															
@@ -132,16 +163,17 @@ public class Payment {
 					while (true) {
 						seatCount++;
 						choiceNumber = 0;
-						for (int i = 0; i < movieSeat.length; i++) {
-							System.out.println((i + 1) + ". " + movieSeat[i]);
+						for(int i = 0; i < seatList.size(); i++) {
+							System.out.println((i+1)+". "+ seatList.get(i));
 						}
 						System.out.print("좌석을 선택해 주세요 : ");
 						choiceNumber = sc.nextInt();
 						sc.nextLine();
-						seat += movieSeat[choiceNumber] + " ";
-						movieSeat[choiceNumber] = "O";
+						seat += seatList.get(choiceNumber) + " ";
+//						seatList.get(choiceNumber)areaList
+						seatList.set(choiceNumber, "0");
 						
-						if (choiceNumber >= 1 && choiceNumber <= movieSeat.length) {
+						if (choiceNumber >= 1 && choiceNumber <= seatList.size()) {
 							System.out.println("1. 좌석 더 선택하기");
 							System.out.println("2. 그만선택하기");
 							System.out.print("번호을 선택해 주세요 : ");
@@ -154,11 +186,12 @@ public class Payment {
 							}
 						}
 					}
-					ticketPrice = dao.movieSeat(movidPrice,seatCount);
+					ticketPrice = dao.movieSeatPrice(seatCount, movidPrice);
 
 					/* 현재 선택 현황 */
 					System.out.println(movie + " " + movidPrice + "원");
 					System.out.println(date + " " + time + "시");
+					System.out.println("장소 : " + movidArea);
 					System.out.print("좌석번호 : " + seat);
 					System.out.println();
 					System.out.println("현재 총 금액 : " + ticketPrice + "원");
@@ -206,6 +239,7 @@ public class Payment {
 					/* 현재 선택 현황 */
 					System.out.println(movie + " " + movidPrice + "원");
 					System.out.println(date + " " + time + "시");
+					System.out.println("장소 : " + movidArea);
 					System.out.print("좌석번호 : " + seat);
 					System.out.println();
 					System.out.print("상품 : " + product);
@@ -259,6 +293,7 @@ public class Payment {
 					/* 현재 선택 현황 */
 					System.out.println(movie + " " + movidPrice + "원");
 					System.out.println(date + " " + time + "시");
+					System.out.println("장소 : " + movidArea);
 					System.out.print("좌석번호 : " + seat);
 					System.out.println();
 					System.out.print("상품 : " + product);
@@ -274,7 +309,7 @@ public class Payment {
 					String timeDAO = time+"시";
 					String productPriceDAO = productPrice+"원";
 					String viewer = seatCount + "명"; // 영화 보는사람 카운트 몇명 보는지
-					dao.print(nickName, movie, timeDAO, seat, viewer, ticketPrice, product, productPriceDAO, cardName, cardDiscountDAO, pay, toDay);
+					dao.print(nickName, movie, movidArea,timeDAO, seat, viewer, ticketPrice, product, productPriceDAO, cardName, cardDiscountDAO, pay, toDay);
 //					
 					number = 6;
 					break;
